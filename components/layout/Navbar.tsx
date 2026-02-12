@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAVBAR_HEIGHT, NAVIGATION_LINKS, SITE } from '@/lib/constants'
@@ -10,6 +10,10 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
+
+  // ── Scroll progress for progress bar ────────────────────────
+  const { scrollYProgress } = useScroll()
+  const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1])
 
   // ── Helper: is this link "active" based on the current route? ──
   const isActive = (href: string): boolean => {
@@ -88,7 +92,9 @@ export default function Navbar() {
           {/* ── Logo ────────────────────────────────────────── */}
           <Link
             href="/"
-            className="text-xl font-bold tracking-tight select-none rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+            className={`text-xl font-bold tracking-tight select-none rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary motion-safe:hover:animate-[logo-glitch_0.3s_ease-in-out] ${
+              !scrolled ? 'motion-safe:animate-[logo-breathe_4s_ease-in-out_infinite]' : ''
+            }`}
           >
             <span className="bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] bg-clip-text text-transparent">
               {SITE.name}
@@ -190,6 +196,12 @@ export default function Navbar() {
             </svg>
           </button>
         </div>
+
+        {/* ── Scroll progress bar ───────────────────────────── */}
+        <motion.div
+          className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-gradient-to-r from-brand-from to-brand-to"
+          style={{ scaleX }}
+        />
       </nav>
 
       {/* ── Mobile slide-in panel ─────────────────────────────── */}

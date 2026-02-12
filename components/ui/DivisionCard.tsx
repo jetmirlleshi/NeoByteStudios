@@ -3,10 +3,12 @@ import Badge from '@/components/ui/Badge'
 
 /**
  * Props for the DivisionCard component.
- * @property division - A Division object from the DIVISIONS array in constants.
+ * @property division     - A Division object from the DIVISIONS array in constants.
+ * @property shimmerIndex - Index used to stagger the shimmer delay on coming-soon cards.
  */
 interface DivisionCardProps {
   division: Division
+  shimmerIndex?: number
 }
 
 /**
@@ -22,7 +24,7 @@ interface DivisionCardProps {
  *
  * This is a **server component** — all hover effects are pure CSS.
  */
-export default function DivisionCard({ division }: DivisionCardProps) {
+export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCardProps) {
   const isActive = division.status === 'active'
 
   /* ── Shared card content ──────────────────────────────────────── */
@@ -59,9 +61,21 @@ export default function DivisionCard({ division }: DivisionCardProps) {
     'flex flex-col rounded-xl border-l-2 border-border bg-bg-card p-6 transition-all duration-300'
 
   /* ── Inline style with CSS custom property for the hover glow ── */
-  const cardStyle = {
+  const cardStyle: React.CSSProperties = {
     borderLeftColor: division.color,
     '--card-glow': `0 0 20px ${division.color}33, 0 0 40px ${division.color}15`,
+    /* Active cards get a subtle coloured top edge via a gradient border image */
+    ...(isActive && {
+      borderTopWidth: '1px',
+      borderTopStyle: 'solid',
+      borderImageSource: `linear-gradient(to right, ${division.color}4D, transparent)`,
+      borderImageSlice: 1,
+    }),
+    /* Coming-soon cards get a slight desaturation to feel "not yet activated" */
+    ...(!isActive && {
+      filter: 'saturate(0.7) brightness(0.95)',
+      '--shimmer-delay': `${shimmerIndex * 0.8}s`,
+    }),
   } as React.CSSProperties
 
   /* ── Active: clickable link with energetic hover ──────────────── */
@@ -79,10 +93,10 @@ export default function DivisionCard({ division }: DivisionCardProps) {
     )
   }
 
-  /* ── Coming soon: non-clickable with subtle mystery effect ────── */
+  /* ── Coming soon: non-clickable with shimmer + subtle mystery effect */
   return (
     <div
-      className={`${baseClasses} cursor-default opacity-80 hover:opacity-100`}
+      className={`${baseClasses} card-shimmer cursor-default overflow-hidden opacity-80 hover:opacity-100`}
       style={cardStyle}
     >
       {cardContent}

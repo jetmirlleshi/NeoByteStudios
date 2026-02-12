@@ -74,30 +74,47 @@ export default function IPShowcase() {
       {/* Card container */}
       <div className="relative z-10 mx-auto max-w-4xl px-4">
         <ScrollReveal>
-          {/* Gradient border wrapper — 1px gradient "border" via padding */}
+          {/* Animated gradient border wrapper — rotating conic-gradient "border" */}
           <div
-            className="rounded-2xl p-[1px]"
+            className="nebula-border rounded-2xl p-[1px]"
             style={{
               background:
-                "linear-gradient(135deg, rgba(124,58,237,0.4) 0%, rgba(59,130,246,0.2) 50%, rgba(124,58,237,0.15) 100%)",
+                "conic-gradient(from var(--border-angle), rgba(124,58,237,0.4) 0%, rgba(59,130,246,0.2) 25%, rgba(124,58,237,0.15) 50%, rgba(59,130,246,0.3) 75%, rgba(124,58,237,0.4) 100%)",
+              animation: "border-rotate 8s linear infinite",
             }}
           >
-            {/* Main card */}
+            {/* Main card — animated nebula background */}
             <div
-              className="relative overflow-hidden rounded-2xl p-12 md:p-16"
+              className="nebula-card relative overflow-hidden rounded-2xl p-12 md:p-16"
               style={{
-                background: [
-                  // Base solid color
-                  "var(--bg-card)",
-                  // Layered nebulous gradients for visual depth
+                backgroundImage: [
                   "radial-gradient(ellipse 60% 50% at 20% 80%, rgba(124,58,237,0.08) 0%, transparent 70%)",
                   "radial-gradient(ellipse 50% 60% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 70%)",
                   "radial-gradient(ellipse 80% 40% at 50% 50%, rgba(124,58,237,0.04) 0%, transparent 60%)",
-                ]
-                  .reverse()
-                  .join(", "),
+                ].join(", "),
+                backgroundColor: "var(--bg-card)",
+                backgroundSize: "200% 200%, 200% 200%, 200% 200%",
+                animation: "nebula-drift 20s ease-in-out infinite",
               }}
             >
+              {/* Slowly rotating conic overlay for added depth */}
+              <div
+                aria-hidden="true"
+                className="nebula-rotate-overlay pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl"
+              >
+                <div
+                  style={{
+                    width: "150%",
+                    height: "150%",
+                    background:
+                      "conic-gradient(from 0deg, rgba(124,58,237,0.04), transparent 30%, rgba(59,130,246,0.03), transparent 60%, rgba(124,58,237,0.04))",
+                    borderRadius: "50%",
+                    animation: "nebula-rotate 60s linear infinite",
+                    opacity: 0.5,
+                  }}
+                />
+              </div>
+
               {/* Soft outer glow */}
               <div
                 aria-hidden="true"

@@ -81,6 +81,108 @@ body {
   box-shadow: var(--card-glow);
 }
 
+/* ─── CTA Shimmer Effect ───────────────────────────────────── */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* ─── IP Showcase: Nebula Drift ────────────────────────────── */
+@keyframes nebula-drift {
+  0% {
+    background-position: 0% 50%, 100% 50%, 50% 50%;
+  }
+  33% {
+    background-position: 30% 70%, 70% 30%, 50% 60%;
+  }
+  66% {
+    background-position: 60% 40%, 40% 70%, 40% 40%;
+  }
+  100% {
+    background-position: 0% 50%, 100% 50%, 50% 50%;
+  }
+}
+
+/* ─── IP Showcase: Nebula Rotate Overlay ───────────────────── */
+@keyframes nebula-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── IP Showcase: Animated Border ─────────────────────────── */
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes border-rotate {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
+}
+
+/* ─── Card Scan-Line Shimmer (coming-soon cards) ────────────── */
+@keyframes card-scanline {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(400%) skewX(-15deg);
+  }
+}
+
+.card-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(124, 58, 237, 0.06) 45%,
+    rgba(59, 130, 246, 0.08) 50%,
+    rgba(124, 58, 237, 0.06) 55%,
+    transparent 100%
+  );
+  width: 50%;
+  animation: card-scanline 4s ease-in-out infinite;
+  animation-delay: var(--shimmer-delay, 0s);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* ─── Logo Breathing Glow ──────────────────────────────────── */
+@keyframes logo-breathe {
+  0%, 100% { filter: drop-shadow(0 0 0px transparent); }
+  50% { filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.4)); }
+}
+
+/* ─── Logo Micro-Glitch on Hover ───────────────────────────── */
+@keyframes logo-glitch {
+  0% { transform: translate(0); text-shadow: none; }
+  20% { transform: translate(-2px, 1px); text-shadow: 2px 0 #7c3aed, -2px 0 #3b82f6; }
+  40% { transform: translate(2px, -1px); text-shadow: -2px 0 #7c3aed, 2px 0 #3b82f6; }
+  60% { transform: translate(-1px, 0); text-shadow: 1px 0 #7c3aed, -1px 0 #3b82f6; }
+  80% { transform: translate(1px, 1px); text-shadow: -1px 0 #7c3aed, 1px 0 #3b82f6; }
+  100% { transform: translate(0); text-shadow: none; }
+}
+
 /* ─── Reduced Motion ────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -93,5 +195,17 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Freeze nebula & border animations completely */
+  .nebula-card {
+    animation: none !important;
+    background-position: 0% 50%, 100% 50%, 50% 50% !important;
+  }
+  .nebula-rotate-overlay {
+    animation: none !important;
+  }
+  .nebula-border {
+    animation: none !important;
   }
 }
