@@ -3,6 +3,7 @@ import GradientText from '@/components/ui/GradientText'
 import ScrollReveal from '@/components/ui/ScrollReveal'
 import DivisionCard from '@/components/ui/DivisionCard'
 import TiltCard from '@/components/ui/TiltCard'
+import FloatingOrbs from '@/components/ui/FloatingOrbs'
 
 /**
  * Divisions section -- showcases all four NeoByteStudios divisions in a
@@ -19,8 +20,9 @@ export default function DivisionsSection() {
   let comingSoonIndex = 0
 
   return (
-    <section id="divisions" className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-4">
+    <section id="divisions" className="relative overflow-hidden py-24 md:py-32">
+      <FloatingOrbs seed={42} />
+      <div className="relative mx-auto max-w-6xl px-4">
         {/* ── Section header ──────────────────────────────────────── */}
         <div className="text-center">
           <h2 className="text-3xl font-bold md:text-4xl">

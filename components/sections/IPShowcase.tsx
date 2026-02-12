@@ -1,5 +1,7 @@
 import GradientText from "@/components/ui/GradientText";
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import TextReveal from "@/components/ui/TextReveal";
+import ScrambleText from "@/components/ui/ScrambleText";
 import { seededRandom } from "@/lib/utils";
 
 /* ─── Particle type ─────────────────────────────────────────── */
@@ -154,15 +156,22 @@ export default function IPShowcase() {
 
               {/* Text content — centered */}
               <div className="relative z-10 flex flex-col items-center text-center">
-                <h2 className="text-2xl font-bold md:text-4xl">
-                  <GradientText>
-                    Our first universe is being forged.
-                  </GradientText>
-                </h2>
+                <TextReveal>
+                  <h2 className="text-2xl font-bold md:text-4xl">
+                    <GradientText>
+                      Our first universe is being forged.
+                    </GradientText>
+                  </h2>
+                </TextReveal>
 
                 <p className="mx-auto mt-4 max-w-lg text-base text-text-secondary md:text-lg">
                   A fantasy world born from the collaboration between human
-                  imagination and artificial intelligence. Coming 2026.
+                  imagination and artificial intelligence.{' '}
+                  <ScrambleText
+                    text="Coming 2026."
+                    delay={0.8}
+                    className="font-semibold text-text-primary"
+                  />
                 </p>
               </div>
             </div>

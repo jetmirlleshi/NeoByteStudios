@@ -54,8 +54,16 @@ function SocialIcon({ icon }: { icon: string }) {
 export default function Footer() {
   return (
     <footer className="relative mt-auto">
-      {/* ── Top gradient separator ─────────────────────────── */}
-      <div className="h-px bg-gradient-to-r from-brand-from to-brand-to opacity-40" />
+      {/* ── Top aurora separator ────────────────────────────── */}
+      <div
+        className="aurora-line h-[4px] rounded-full opacity-50"
+        style={{
+          background:
+            'linear-gradient(90deg, transparent, #7c3aed, #3b82f6, #10b981, #3b82f6, #7c3aed, transparent)',
+          backgroundSize: '200% 100%',
+          animation: 'aurora-shift 8s ease-in-out infinite',
+        }}
+      />
 
       <div className="mx-auto max-w-7xl px-6 py-16">
         {/* ── 3-column grid ─────────────────────────────────── */}

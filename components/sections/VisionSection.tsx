@@ -1,11 +1,13 @@
 import GradientText from "@/components/ui/GradientText";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import PillarDiagram from "@/components/ui/PillarDiagram";
+import FloatingOrbs from "@/components/ui/FloatingOrbs";
 
 export default function VisionSection() {
   return (
-    <section id="vision" className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-4">
+    <section id="vision" className="relative overflow-hidden py-24 md:py-32">
+      <FloatingOrbs seed={99} />
+      <div className="relative mx-auto max-w-6xl px-4">
         {/* ── Section Title ─────────────────────────────────── */}
         <ScrollReveal>
           <h2 className="text-center text-3xl font-bold md:text-4xl">

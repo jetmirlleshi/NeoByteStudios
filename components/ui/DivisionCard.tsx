@@ -15,7 +15,8 @@ interface DivisionCardProps {
  * A card that represents a single NeoByteStudios division.
  *
  * - **Active divisions** are wrapped in an `<a>` tag linking to the division URL.
- *   They have an energetic hover effect: slight scale-up and a brighter glow.
+ *   They have an energetic hover effect: slight scale-up, a brighter glow, and an
+ *   animated border-drawing effect that traces a glowing line around the card perimeter.
  * - **Coming-soon divisions** are rendered as a plain `<div>` (not clickable).
  *   They feel mysterious with reduced opacity that increases on hover.
  *
@@ -30,8 +31,16 @@ export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCar
   /* ── Shared card content ──────────────────────────────────────── */
   const cardContent = (
     <>
-      {/* Division icon */}
-      <span className="text-3xl" role="img" aria-label={division.name}>
+      {/* Division icon — active cards scale+rotate on hover, coming-soon cards pulse */}
+      <span
+        className={`text-3xl transition-transform duration-300 ${
+          isActive
+            ? 'group-hover:scale-115 group-hover:rotate-3'
+            : 'group-hover:scale-105'
+        }`}
+        role="img"
+        aria-label={division.name}
+      >
         {division.icon}
       </span>
 
@@ -46,6 +55,12 @@ export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCar
       {/* Tagline */}
       <p className="mt-1 text-sm text-text-secondary">{division.tagline}</p>
 
+      {/* Gradient separator line — draws in on hover */}
+      <div
+        className="mt-2 h-px w-0 transition-all duration-500 group-hover:w-full"
+        style={{ background: `linear-gradient(to right, ${division.color}4D, transparent)` }}
+      />
+
       {/* Description */}
       <p className="mt-2 text-sm text-text-muted">{division.description}</p>
 
@@ -58,7 +73,7 @@ export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCar
 
   /* ── Shared styles ────────────────────────────────────────────── */
   const baseClasses =
-    'flex flex-col rounded-xl border-l-2 border-border bg-bg-card p-6 transition-all duration-300'
+    'group flex flex-col rounded-xl border-l-2 border-border bg-bg-card p-6 transition-all duration-300'
 
   /* ── Inline style with CSS custom property for the hover glow ── */
   const cardStyle: React.CSSProperties = {
@@ -78,18 +93,51 @@ export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCar
     }),
   } as React.CSSProperties
 
-  /* ── Active: clickable link with energetic hover ──────────────── */
+  /* ── Active: clickable link with energetic hover + animated border wrapper */
   if (isActive) {
     return (
-      <a
-        href={division.url!}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`${baseClasses} cursor-pointer hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary`}
-        style={cardStyle}
+      <div
+        className="division-border-wrap rounded-xl p-[1px] transition-all duration-300"
+        style={{
+          /* Default transparent; conic-gradient appears on hover via CSS below */
+          '--division-color-60': `${division.color}99`,
+          '--division-color-33': `${division.color}55`,
+          '--division-color-20': `${division.color}33`,
+        } as React.CSSProperties}
       >
-        {cardContent}
-      </a>
+        {/* Scoped styles for the animated border drawing effect.
+            Uses the global --border-angle property + border-rotate keyframe. */}
+        <style>{`
+          .division-border-wrap {
+            background: transparent;
+          }
+          .division-border-wrap:hover {
+            background: conic-gradient(
+              from var(--border-angle),
+              var(--division-color-60) 0%,
+              transparent 30%,
+              var(--division-color-33) 50%,
+              transparent 80%
+            );
+            animation: border-rotate 3s linear infinite;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .division-border-wrap:hover {
+              background: var(--division-color-20);
+              animation: none;
+            }
+          }
+        `}</style>
+        <a
+          href={division.url!}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${baseClasses} cursor-pointer hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary`}
+          style={cardStyle}
+        >
+          {cardContent}
+        </a>
+      </div>
     )
   }
 

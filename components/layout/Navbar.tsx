@@ -80,6 +80,32 @@ export default function Navbar() {
 
   return (
     <>
+      {/* Nav link hover underline animation — scoped keyframe-free CSS */}
+      <style>{`
+        .nav-link-hover {
+          position: relative;
+        }
+        .nav-link-hover::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 0%;
+          height: 2px;
+          background: linear-gradient(to right, var(--brand-from), var(--brand-to));
+          transition: width 0.3s ease;
+          border-radius: 1px;
+        }
+        .nav-link-hover:hover::after {
+          width: 100%;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .nav-link-hover::after {
+            transition: none;
+          }
+        }
+      `}</style>
+
       {/* ── Fixed navbar ──────────────────────────────────────── */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -114,7 +140,7 @@ export default function Navbar() {
                     className={
                       link.highlight
                         ? 'group relative ml-3 inline-flex items-center rounded-lg px-4 py-2 text-sm font-semibold text-text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
-                        : 'rounded-md px-4 py-2 text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
+                        : 'nav-link-hover rounded-md px-4 py-2 text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
                     }
                   >
                     {link.highlight ? (
@@ -138,7 +164,7 @@ export default function Navbar() {
                     className={
                       link.highlight
                         ? 'group relative ml-3 inline-flex items-center rounded-lg px-4 py-2 text-sm font-semibold text-text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
-                        : `rounded-md px-4 py-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary ${
+                        : `nav-link-hover rounded-md px-4 py-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary ${
                             isActive(link.href)
                               ? 'text-text-primary'
                               : 'text-text-secondary hover:text-text-primary'
