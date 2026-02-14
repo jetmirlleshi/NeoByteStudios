@@ -7,13 +7,21 @@ import SectionDivider from '@/components/ui/SectionDivider'
 export default function Home() {
   return (
     <>
-      <Hero />
+      <div className="snap-section">
+        <Hero />
+      </div>
       <SectionDivider variant="wave" />
-      <DivisionsSection />
+      <div className="snap-section">
+        <DivisionsSection />
+      </div>
       <SectionDivider variant="gradient" />
-      <VisionSection />
+      <div className="snap-section">
+        <VisionSection />
+      </div>
       <SectionDivider variant="wave" flip />
-      <IPShowcase />
+      <div className="snap-section">
+        <IPShowcase />
+      </div>
     </>
   )
 }

@@ -2,6 +2,7 @@ import GradientText from "@/components/ui/GradientText";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import TextReveal from "@/components/ui/TextReveal";
 import ScrambleText from "@/components/ui/ScrambleText";
+import Countdown from "@/components/ui/Countdown";
 import { seededRandom } from "@/lib/utils";
 
 /* ─── Particle type ─────────────────────────────────────────── */
@@ -11,37 +12,37 @@ interface Particle {
   size: number;
   delay: number;
   duration: number;
-  color: "white" | "brand";
+  color: "white" | "brand" | "accent";
 }
 
 function generateParticles(count: number): Particle[] {
-  const rand = seededRandom(1337); // different seed from GridBackground
+  const rand = seededRandom(1337);
   const particles: Particle[] = [];
   for (let i = 0; i < count; i++) {
+    const r = rand();
     particles.push({
       left: `${Math.round(rand() * 100)}%`,
       top: `${Math.round(rand() * 100)}%`,
-      size: 1 + Math.round(rand() * 2), // 1-3px
+      size: 1 + Math.round(rand() * 2),
       delay: rand() * 10,
-      duration: 6 + rand() * 8, // 6-14s — slow drift
-      color: rand() > 0.5 ? "brand" : "white",
+      duration: 6 + rand() * 8,
+      color: r > 0.66 ? "accent" : r > 0.33 ? "brand" : "white",
     });
   }
   return particles;
 }
 
-/* ─── Module-level constant — deterministic with fixed seed ── */
-const PARTICLES = generateParticles(18);
+const PARTICLES = generateParticles(30);
 
 /* ─── Component ─────────────────────────────────────────────── */
 export default function IPShowcase() {
   return (
     <section
       id="ip-showcase"
-      className="relative py-24 md:py-32"
+      className="relative min-h-screen flex items-center justify-center py-32 md:py-48"
       style={{ backgroundColor: "var(--bg-secondary)" }}
     >
-      {/* Keyframe definitions for particles */}
+      {/* Keyframe definitions */}
       <style>{`
         @keyframes ip-particle-drift {
           0%   { opacity: 0; transform: translateY(0); }
@@ -51,47 +52,47 @@ export default function IPShowcase() {
         }
       `}</style>
 
-      {/* Top gradient separator — smooth transition from bg-primary */}
+      {/* Top gradient separator */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0"
         style={{
-          height: "80px",
+          height: "120px",
           background:
             "linear-gradient(to bottom, var(--bg-primary) 0%, transparent 100%)",
         }}
       />
 
-      {/* Bottom gradient separator — smooth transition to next section */}
+      {/* Bottom gradient separator */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0"
         style={{
-          height: "80px",
+          height: "120px",
           background:
             "linear-gradient(to top, var(--bg-primary) 0%, transparent 100%)",
         }}
       />
 
       {/* Card container */}
-      <div className="relative z-10 mx-auto max-w-4xl px-4">
+      <div className="relative z-10 mx-auto max-w-4xl px-4 w-full">
         <ScrollReveal>
-          {/* Animated gradient border wrapper — rotating conic-gradient "border" */}
+          {/* Animated gradient border */}
           <div
             className="nebula-border rounded-2xl p-[1px]"
             style={{
               background:
-                "conic-gradient(from var(--border-angle), rgba(124,58,237,0.4) 0%, rgba(59,130,246,0.2) 25%, rgba(124,58,237,0.15) 50%, rgba(59,130,246,0.3) 75%, rgba(124,58,237,0.4) 100%)",
+                "conic-gradient(from var(--border-angle), rgba(124,58,237,0.4) 0%, rgba(6,214,160,0.2) 25%, rgba(124,58,237,0.15) 50%, rgba(59,130,246,0.3) 75%, rgba(124,58,237,0.4) 100%)",
               animation: "border-rotate 8s linear infinite",
             }}
           >
-            {/* Main card — animated nebula background */}
+            {/* Main nebula card */}
             <div
-              className="nebula-card relative overflow-hidden rounded-2xl p-12 md:p-16"
+              className="nebula-card relative overflow-hidden rounded-2xl p-12 md:p-20"
               style={{
                 backgroundImage: [
                   "radial-gradient(ellipse 60% 50% at 20% 80%, rgba(124,58,237,0.08) 0%, transparent 70%)",
-                  "radial-gradient(ellipse 50% 60% at 80% 20%, rgba(59,130,246,0.06) 0%, transparent 70%)",
+                  "radial-gradient(ellipse 50% 60% at 80% 20%, rgba(6,214,160,0.06) 0%, transparent 70%)",
                   "radial-gradient(ellipse 80% 40% at 50% 50%, rgba(124,58,237,0.04) 0%, transparent 60%)",
                 ].join(", "),
                 backgroundColor: "var(--bg-card)",
@@ -99,7 +100,7 @@ export default function IPShowcase() {
                 animation: "nebula-drift 20s ease-in-out infinite",
               }}
             >
-              {/* Slowly rotating conic overlay for added depth */}
+              {/* Rotating conic overlay */}
               <div
                 aria-hidden="true"
                 className="nebula-rotate-overlay pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden rounded-2xl"
@@ -109,7 +110,7 @@ export default function IPShowcase() {
                     width: "150%",
                     height: "150%",
                     background:
-                      "conic-gradient(from 0deg, rgba(124,58,237,0.04), transparent 30%, rgba(59,130,246,0.03), transparent 60%, rgba(124,58,237,0.04))",
+                      "conic-gradient(from 0deg, rgba(124,58,237,0.04), transparent 30%, rgba(6,214,160,0.03), transparent 60%, rgba(124,58,237,0.04))",
                     borderRadius: "50%",
                     animation: "nebula-rotate 60s linear infinite",
                     opacity: 0.5,
@@ -123,11 +124,11 @@ export default function IPShowcase() {
                 className="pointer-events-none absolute inset-0 rounded-2xl"
                 style={{
                   boxShadow:
-                    "0 0 80px 8px rgba(124,58,237,0.08), 0 0 40px 4px rgba(59,130,246,0.06)",
+                    "0 0 80px 8px rgba(124,58,237,0.08), 0 0 40px 4px rgba(6,214,160,0.06)",
                 }}
               />
 
-              {/* Particles — CSS-only twinkling stars */}
+              {/* Particles */}
               {PARTICLES.map((p, i) => (
                 <div
                   key={i}
@@ -140,13 +141,17 @@ export default function IPShowcase() {
                     height: p.size,
                     borderRadius: "50%",
                     backgroundColor:
-                      p.color === "brand"
-                        ? "rgba(124,58,237,0.5)"
-                        : "rgba(255,255,255,0.35)",
+                      p.color === "accent"
+                        ? "rgba(6,214,160,0.5)"
+                        : p.color === "brand"
+                          ? "rgba(124,58,237,0.5)"
+                          : "rgba(255,255,255,0.35)",
                     boxShadow:
-                      p.color === "brand"
-                        ? "0 0 4px 1px rgba(124,58,237,0.3)"
-                        : "0 0 3px 1px rgba(255,255,255,0.15)",
+                      p.color === "accent"
+                        ? "0 0 4px 1px rgba(6,214,160,0.3)"
+                        : p.color === "brand"
+                          ? "0 0 4px 1px rgba(124,58,237,0.3)"
+                          : "0 0 3px 1px rgba(255,255,255,0.15)",
                     animation: `ip-particle-drift ${p.duration}s ease-in-out ${p.delay}s infinite`,
                     willChange: "opacity, transform",
                     opacity: 0,
@@ -154,25 +159,30 @@ export default function IPShowcase() {
                 />
               ))}
 
-              {/* Text content — centered */}
+              {/* Text content */}
               <div className="relative z-10 flex flex-col items-center text-center">
                 <TextReveal>
-                  <h2 className="text-2xl font-bold md:text-4xl">
-                    <GradientText>
+                  <h2 className="font-display text-3xl font-bold md:text-5xl">
+                    <GradientText from="#7c3aed" to="#06d6a0">
                       Our first universe is being forged.
                     </GradientText>
                   </h2>
                 </TextReveal>
 
-                <p className="mx-auto mt-4 max-w-lg text-base text-text-secondary md:text-lg">
+                <p className="mx-auto mt-6 max-w-lg text-base text-text-secondary md:text-lg">
                   A fantasy world born from the collaboration between human
                   imagination and artificial intelligence.{' '}
                   <ScrambleText
                     text="Coming 2026."
                     delay={0.8}
-                    className="font-semibold text-text-primary"
+                    className="font-semibold text-accent"
                   />
                 </p>
+
+                {/* Countdown timer */}
+                <div className="mt-10">
+                  <Countdown />
+                </div>
               </div>
             </div>
           </div>

@@ -1,8 +1,11 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Geist_Mono, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import ThemeProvider from '@/components/ui/ThemeProvider'
+import SoundProvider from '@/components/ui/SoundProvider'
+import CustomCursor from '@/components/ui/CustomCursor'
 import { SITE, SOCIAL_LINKS } from '@/lib/constants'
 
 const geistSans = Geist({
@@ -13,6 +16,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
   subsets: ['latin'],
+})
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-display',
+  subsets: ['latin'],
+  weight: ['500', '700'],
 })
 
 export const metadata: Metadata = {
@@ -59,9 +68,16 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-bg-primary">
+    <html lang="en" className="bg-bg-primary" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('nbs-theme');if(t==='light')document.documentElement.setAttribute('data-theme','light')})()`,
+          }}
+        />
+      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex min-h-screen flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased flex min-h-screen flex-col`}
       >
         <a
           href="#main-content"
@@ -83,9 +99,14 @@ export default function RootLayout({
             }),
           }}
         />
-        <Navbar />
-        <main id="main-content" className="flex-1">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <SoundProvider>
+            <CustomCursor />
+            <Navbar />
+            <main id="main-content" className="flex-1">{children}</main>
+            <Footer />
+          </SoundProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

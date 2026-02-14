@@ -2,6 +2,8 @@
 export const COLORS = {
   bg: { primary: '#0a0a0f', secondary: '#111118', card: '#16161f' },
   brand: { from: '#7c3aed', to: '#3b82f6' },
+  accent: '#06d6a0',
+  accentWarm: '#f472b6',
   divisions: {
     writer: '#7c3aed',
     forge: '#3b82f6',
@@ -31,7 +33,7 @@ export const DIVISIONS: Division[] = [
   {
     slug: 'writer',
     name: 'NeoByteWriter',
-    icon: '\u270D\uFE0F',
+    icon: 'writer',
     color: '#7c3aed',
     status: 'active',
     url: 'https://neobytewriter.vercel.app',
@@ -42,7 +44,7 @@ export const DIVISIONS: Division[] = [
   {
     slug: 'forge',
     name: 'NeoByteForge',
-    icon: '\uD83D\uDD25',
+    icon: 'forge',
     color: '#3b82f6',
     status: 'coming-soon',
     url: null,
@@ -53,7 +55,7 @@ export const DIVISIONS: Division[] = [
   {
     slug: 'games',
     name: 'NeoByteGames',
-    icon: '\uD83C\uDFAE',
+    icon: 'games',
     color: '#10b981',
     status: 'coming-soon',
     url: null,
@@ -64,7 +66,7 @@ export const DIVISIONS: Division[] = [
   {
     slug: 'vision',
     name: 'NeoByteVision',
-    icon: '\uD83D\uDC41\uFE0F',
+    icon: 'vision',
     color: '#f59e0b',
     status: 'coming-soon',
     url: null,
@@ -88,8 +90,8 @@ export interface NavLink {
 
 export const NAVIGATION_LINKS: NavLink[] = [
   { label: 'Home', href: '/' },
-  { label: 'Divisions', href: '#divisions' },
-  { label: 'About', href: '#vision' },
+  { label: 'Divisions', href: '/#divisions' },
+  { label: 'About', href: '/about' },
   { label: 'Try Writer \u2192', href: 'https://neobytewriter.vercel.app', external: true, highlight: true },
 ]
 
@@ -98,12 +100,13 @@ export interface SocialLink {
   label: string
   href: string
   icon: string
+  brandColor: string
 }
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { label: 'X (Twitter)', href: 'https://x.com/neobytestudios', icon: 'X' },
-  { label: 'Instagram', href: 'https://instagram.com/neobytestudios', icon: 'IG' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/company/neobytestudios', icon: 'in' },
+  { label: 'X (Twitter)', href: 'https://x.com/neobytestudios', icon: 'X', brandColor: '#1DA1F2' },
+  { label: 'Instagram', href: 'https://instagram.com/neobytestudios', icon: 'IG', brandColor: '#E4405F' },
+  { label: 'LinkedIn', href: 'https://linkedin.com/company/neobytestudios', icon: 'in', brandColor: '#0A66C2' },
 ]
 
 // ─── Site Metadata ─────────────────────────────────────────────

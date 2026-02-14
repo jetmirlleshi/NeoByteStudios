@@ -5,6 +5,9 @@ import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAVBAR_HEIGHT, NAVIGATION_LINKS, SITE } from '@/lib/constants'
+import AnimatedLogo from '@/components/ui/AnimatedLogo'
+import ThemeToggle from '@/components/ui/ThemeToggle'
+import SoundToggle from '@/components/ui/SoundToggle'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -17,11 +20,28 @@ export default function Navbar() {
 
   // ── Helper: is this link "active" based on the current route? ──
   const isActive = (href: string): boolean => {
-    // Hash links (e.g. #divisions, #vision) — not tracked by pathname
-    if (href.startsWith('#')) return false
+    // Hash links on homepage (e.g. /#divisions) — active when on homepage
+    if (href.startsWith('/#')) return pathname === '/'
     // Exact match for route-based links (/, /about, etc.)
     return pathname === href
   }
+
+  // ── Scroll to hash after cross-page navigation ─────────────────
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      // Small delay to ensure the page has rendered
+      const timer = setTimeout(() => {
+        const target = document.querySelector(hash)
+        if (target) {
+          const top =
+            target.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT
+          window.scrollTo({ top, behavior: 'smooth' })
+        }
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [pathname])
 
   // ── Escape key closes mobile menu ──────────────────────────────
   useEffect(() => {
@@ -61,21 +81,30 @@ export default function Navbar() {
   // ── Smooth scroll handler for anchor links ────────────────────
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      if (href.startsWith('#')) {
-        e.preventDefault()
-        const target = document.querySelector(href)
-        if (target) {
-          const top =
-            target.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT
-          window.scrollTo({ top, behavior: 'smooth' })
+      // Handle /#hash links — scroll if on homepage, else let Next.js navigate
+      const hashIndex = href.indexOf('#')
+      if (hashIndex !== -1) {
+        const path = href.substring(0, hashIndex) || '/'
+        const hash = href.substring(hashIndex)
+
+        if (pathname === path || (path === '/' && pathname === '/')) {
+          // Already on the correct page — smooth scroll
+          e.preventDefault()
+          const target = document.querySelector(hash)
+          if (target) {
+            const top =
+              target.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT
+            window.scrollTo({ top, behavior: 'smooth' })
+          }
         }
+        // else: let Next.js handle navigation to the page with the hash
         setMobileOpen(false)
       } else if (!href.startsWith('http')) {
         // Internal non-anchor link — just close mobile menu
         setMobileOpen(false)
       }
     },
-    [],
+    [pathname],
   )
 
   return (
@@ -110,7 +139,7 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#0a0a0f]/80 backdrop-blur-lg border-b border-[#1e1e2e]'
+            ? 'bg-bg-primary/80 backdrop-blur-lg border-b border-border-custom'
             : 'bg-transparent'
         }`}
       >
@@ -118,11 +147,12 @@ export default function Navbar() {
           {/* ── Logo ────────────────────────────────────────── */}
           <Link
             href="/"
-            className={`text-xl font-bold tracking-tight select-none rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary motion-safe:hover:animate-[logo-glitch_0.3s_ease-in-out] ${
-              !scrolled ? 'motion-safe:animate-[logo-breathe_4s_ease-in-out_infinite]' : ''
-            }`}
+            className="flex items-center gap-2.5 select-none rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
           >
-            <span className="bg-gradient-to-r from-[#7c3aed] to-[#3b82f6] bg-clip-text text-transparent">
+            <AnimatedLogo size={32} />
+            <span className={`font-display text-xl font-bold tracking-tight bg-gradient-to-r from-[#7c3aed] to-[#06d6a0] bg-clip-text text-transparent motion-safe:hover:animate-[logo-glitch_0.3s_ease-in-out] ${
+              !scrolled ? 'motion-safe:animate-[logo-breathe_4s_ease-in-out_infinite]' : ''
+            }`}>
               {SITE.name}
             </span>
           </Link>
@@ -158,7 +188,7 @@ export default function Navbar() {
                 ) : (
                   // Internal link — use Next.js <Link>
                   <Link
-                    href={link.href.startsWith('#') ? `/${link.href}` : link.href}
+                    href={link.href}
                     scroll={false}
                     onClick={(e) => handleNavClick(e, link.href)}
                     className={
@@ -185,6 +215,12 @@ export default function Navbar() {
               </li>
             ))}
           </ul>
+
+          {/* ── Theme + Sound toggles ─────────────────────── */}
+          <div className="hidden items-center gap-1 md:flex ml-2">
+            <ThemeToggle />
+            <SoundToggle />
+          </div>
 
           {/* ── Mobile hamburger button ─────────────────────── */}
           <button
@@ -225,7 +261,7 @@ export default function Navbar() {
 
         {/* ── Scroll progress bar ───────────────────────────── */}
         <motion.div
-          className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-gradient-to-r from-brand-from to-brand-to"
+          className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-gradient-to-r from-brand-from via-accent to-brand-to"
           style={{ scaleX }}
         />
       </nav>
@@ -255,6 +291,12 @@ export default function Navbar() {
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 z-40 flex h-full w-72 flex-col bg-bg-secondary pt-24 shadow-2xl md:hidden"
             >
+              {/* Mobile theme + sound toggles */}
+              <div className="flex items-center gap-2 px-6 mb-4">
+                <ThemeToggle />
+                <SoundToggle />
+              </div>
+
               <ul className="flex flex-col gap-2 px-6">
                 {NAVIGATION_LINKS.map((link) => (
                   <li key={link.label}>
@@ -275,7 +317,7 @@ export default function Navbar() {
                     ) : (
                       // Internal link — use Next.js <Link>
                       <Link
-                        href={link.href.startsWith('#') ? `/${link.href}` : link.href}
+                        href={link.href}
                         scroll={false}
                         onClick={(e) => handleNavClick(e, link.href)}
                         className={

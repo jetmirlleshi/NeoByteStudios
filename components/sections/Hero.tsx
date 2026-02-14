@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useCallback, useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
 
 const GridBackground = dynamic(() => import("@/components/ui/GridBackground"), {
@@ -10,13 +10,15 @@ const GridBackground = dynamic(() => import("@/components/ui/GridBackground"), {
 const CursorGlow = dynamic(() => import("@/components/ui/CursorGlow"), {
   ssr: false,
 });
+const HeroVisual = dynamic(() => import("@/components/ui/HeroVisual"), {
+  ssr: false,
+});
 import GradientText from "@/components/ui/GradientText";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { NAVBAR_HEIGHT, SITE } from "@/lib/constants";
 
 // ─── Animation Variants ─────────────────────────────────────────
 
-/** Container variant that staggers each character's entrance */
 const titleContainerVariants = {
   hidden: {},
   visible: {
@@ -24,7 +26,6 @@ const titleContainerVariants = {
   },
 };
 
-/** Each character fades in and slides up */
 const charVariants = {
   hidden: { opacity: 0, y: 10 },
   visible: {
@@ -34,7 +35,6 @@ const charVariants = {
   },
 };
 
-/** Blinking caret that appears after the last character is revealed */
 const caretDelay = SITE.name.length * 0.04 + 0.3;
 
 const caretVariants = {
@@ -54,6 +54,15 @@ const caretVariants = {
 
 export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const visualY = useTransform(scrollYProgress, [0, 1], ["0%", "35%"]);
 
   const scrollToDivisions = useCallback(() => {
     const target = document.getElementById("divisions");
@@ -65,7 +74,6 @@ export default function Hero() {
     window.scrollTo({ top, behavior: "smooth" });
   }, []);
 
-  /** Standard fade-slide-up used for tagline, subtitle, and CTA */
   const fadeSlideUp = (index: number) =>
     prefersReducedMotion
       ? { initial: { opacity: 1, y: 0 }, animate: { opacity: 1, y: 0 } }
@@ -79,31 +87,43 @@ export default function Hero() {
           },
         };
 
-  // Split studio name into individual characters for the typing effect
   const chars = SITE.name.split("");
 
   return (
     <section
+      ref={sectionRef}
       id="hero"
       className="relative min-h-screen overflow-hidden flex items-center justify-center"
     >
-      {/* Animated grid background — sits behind all content */}
-      <GridBackground />
+      {/* Animated grid background — parallax layer */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={prefersReducedMotion ? undefined : { y: bgY }}
+      >
+        <GridBackground />
+      </motion.div>
 
-      {/* Interactive cursor glow — above grid, below content */}
+      {/* Abstract generative visual — parallax layer */}
+      <motion.div
+        className="absolute inset-0 z-[2]"
+        style={prefersReducedMotion ? undefined : { y: visualY }}
+      >
+        <HeroVisual />
+      </motion.div>
+
+      {/* Interactive cursor glow */}
       <CursorGlow />
 
-      {/* Centred content stack — cinematic reveal on initial load */}
+      {/* Centred content stack */}
       <motion.div
         className="relative z-10 flex flex-col items-center text-center px-4"
         initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.98, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.15 }}>
-        {/* 1. Logo / studio name — word-by-word reveal with typing caret */}
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
+        {/* 1. Logo / studio name — display font with typing reveal */}
+        <h1 className="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight">
           <GradientText>
             {prefersReducedMotion ? (
-              // Reduced motion: just show the full name instantly
               SITE.name
             ) : (
               <motion.span
@@ -118,14 +138,12 @@ export default function Hero() {
                     key={i}
                     variants={charVariants}
                     className="inline-block"
-                    // Preserve whitespace for any spaces in the name
                     style={char === " " ? { width: "0.3em" } : undefined}
                   >
                     {char}
                   </motion.span>
                 ))}
 
-                {/* Blinking caret — thin vertical line in brand gradient */}
                 <motion.span
                   variants={caretVariants}
                   className="inline-block ml-[2px]"
@@ -144,39 +162,38 @@ export default function Hero() {
           </GradientText>
         </h1>
 
-        {/* 2. Tagline */}
+        {/* 2. Tagline — with accent color highlight */}
         <motion.p
           {...fadeSlideUp(1)}
-          className="mt-4 text-xl md:text-2xl text-text-secondary"
+          className="mt-6 text-xl md:text-2xl lg:text-3xl text-text-secondary font-light tracking-wide"
         >
           {SITE.tagline}
         </motion.p>
 
-        {/* 3. Subtitle / mission statement */}
+        {/* 3. Subtitle */}
         <motion.p
           {...fadeSlideUp(2)}
-          className="mt-2 max-w-xl mx-auto text-base md:text-lg text-text-muted"
+          className="mt-3 max-w-xl mx-auto text-base md:text-lg text-text-muted"
         >
           An AI-first studio creating cross-media intellectual properties.
         </motion.p>
 
-        {/* 4. CTA button with gradient border, hover glow, shimmer, and magnetic pull */}
-        <motion.div {...fadeSlideUp(3)} className="mt-8">
+        {/* 4. CTA button — now with accent color */}
+        <motion.div {...fadeSlideUp(3)} className="mt-10">
           <MagneticButton>
             <button
               type="button"
               onClick={scrollToDivisions}
               className="
                 group relative rounded-full p-[1px]
-                bg-gradient-to-r from-brand-from to-brand-to
+                bg-gradient-to-r from-brand-from to-accent
                 transition-shadow duration-300
-                hover:shadow-[0_0_24px_4px_rgba(124,58,237,0.45)]
+                hover:shadow-[0_0_24px_4px_rgba(6,214,160,0.35)]
                 focus-visible:outline-none focus-visible:ring-2
-                focus-visible:ring-brand-from focus-visible:ring-offset-2
+                focus-visible:ring-accent focus-visible:ring-offset-2
                 focus-visible:ring-offset-bg-primary
               "
             >
-              {/* Inner surface — matches page background for "border" illusion */}
               <span
                 className="
                   relative block rounded-full px-8 py-3 overflow-hidden
@@ -187,7 +204,6 @@ export default function Hero() {
               >
                 Explore Our Divisions&nbsp;&darr;
 
-                {/* Shimmer overlay — diagonal white gradient that sweeps across */}
                 <span
                   aria-hidden="true"
                   className="
@@ -197,8 +213,6 @@ export default function Hero() {
                   style={{
                     background:
                       "linear-gradient(110deg, transparent 25%, rgba(255,255,255,0.08) 50%, transparent 75%)",
-                    // Animation is paused when prefers-reduced-motion is active
-                    // because globals.css sets animation-duration: 0.01ms
                   }}
                 />
               </span>

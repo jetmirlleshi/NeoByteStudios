@@ -1,112 +1,96 @@
 import type { Division } from '@/lib/constants'
 import Badge from '@/components/ui/Badge'
+import DivisionIcon from '@/components/ui/DivisionIcon'
 
-/**
- * Props for the DivisionCard component.
- * @property division     - A Division object from the DIVISIONS array in constants.
- * @property shimmerIndex - Index used to stagger the shimmer delay on coming-soon cards.
- */
 interface DivisionCardProps {
   division: Division
   shimmerIndex?: number
+  featured?: boolean
 }
 
-/**
- * A card that represents a single NeoByteStudios division.
- *
- * - **Active divisions** are wrapped in an `<a>` tag linking to the division URL.
- *   They have an energetic hover effect: slight scale-up, a brighter glow, and an
- *   animated border-drawing effect that traces a glowing line around the card perimeter.
- * - **Coming-soon divisions** are rendered as a plain `<div>` (not clickable).
- *   They feel mysterious with reduced opacity that increases on hover.
- *
- * The left border and name use the division's accent color.
- * A colored box-shadow glow appears on hover via a CSS custom property.
- *
- * This is a **server component** — all hover effects are pure CSS.
- */
-export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCardProps) {
+export default function DivisionCard({ division, shimmerIndex = 0, featured = false }: DivisionCardProps) {
   const isActive = division.status === 'active'
 
-  /* ── Shared card content ──────────────────────────────────────── */
   const cardContent = (
     <>
-      {/* Division icon — active cards scale+rotate on hover, coming-soon cards pulse */}
-      <span
-        className={`text-3xl transition-transform duration-300 ${
-          isActive
-            ? 'group-hover:scale-115 group-hover:rotate-3'
-            : 'group-hover:scale-105'
-        }`}
-        role="img"
-        aria-label={division.name}
-      >
-        {division.icon}
-      </span>
+      {/* Color flood overlay */}
+      <div
+        className="card-flood-overlay"
+        style={{ '--flood-color': `${division.color}10` } as React.CSSProperties}
+      />
 
-      {/* Division name in its accent color */}
+      {/* Division icon — SVG instead of emoji */}
+      <div
+        className={`flex items-center justify-center rounded-xl transition-all duration-300 ${
+          featured ? 'h-14 w-14' : 'h-11 w-11'
+        } ${isActive ? 'group-hover:scale-110' : 'group-hover:scale-105'}`}
+        style={{
+          background: `linear-gradient(135deg, ${division.color}20, ${division.color}08)`,
+          border: `1px solid ${division.color}30`,
+        }}
+      >
+        <DivisionIcon
+          slug={division.slug}
+          color={division.color}
+          size={featured ? 28 : 22}
+        />
+      </div>
+
+      {/* Division name */}
       <h3
-        className="mt-3 text-lg font-semibold"
+        className={`mt-4 font-display font-bold ${featured ? 'text-xl md:text-2xl' : 'text-lg'}`}
         style={{ color: division.color }}
       >
         {division.name}
       </h3>
 
       {/* Tagline */}
-      <p className="mt-1 text-sm text-text-secondary">{division.tagline}</p>
+      <p className={`mt-1 text-text-secondary ${featured ? 'text-base' : 'text-sm'}`}>
+        {division.tagline}
+      </p>
 
-      {/* Gradient separator line — draws in on hover */}
+      {/* Gradient separator */}
       <div
-        className="mt-2 h-px w-0 transition-all duration-500 group-hover:w-full"
+        className="mt-3 h-px w-0 transition-all duration-500 group-hover:w-full"
         style={{ background: `linear-gradient(to right, ${division.color}4D, transparent)` }}
       />
 
       {/* Description */}
-      <p className="mt-2 text-sm text-text-muted">{division.description}</p>
+      <p className={`mt-3 text-text-muted ${featured ? 'text-base' : 'text-sm'}`}>
+        {division.description}
+      </p>
 
       {/* Status badge */}
-      <div className="mt-4">
+      <div className="mt-auto pt-4">
         <Badge status={division.status} color={division.color} />
       </div>
     </>
   )
 
-  /* ── Shared styles ────────────────────────────────────────────── */
-  const baseClasses =
-    'group flex flex-col rounded-xl border-l-2 border-border bg-bg-card p-6 transition-all duration-300'
+  const baseClasses = `group relative flex flex-col rounded-2xl p-6 ${featured ? 'md:p-8' : ''} transition-all duration-300 h-full glass-card`
 
-  /* ── Inline style with CSS custom property for the hover glow ── */
   const cardStyle: React.CSSProperties = {
-    borderLeftColor: division.color,
     '--card-glow': `0 0 20px ${division.color}33, 0 0 40px ${division.color}15`,
-    /* Active cards get a subtle coloured top edge via a gradient border image */
+    borderLeft: `2px solid ${division.color}`,
     ...(isActive && {
-      borderTopWidth: '1px',
-      borderTopStyle: 'solid',
-      borderImageSource: `linear-gradient(to right, ${division.color}4D, transparent)`,
-      borderImageSlice: 1,
+      borderTop: `1px solid ${division.color}4D`,
     }),
-    /* Coming-soon cards get a slight desaturation to feel "not yet activated" */
     ...(!isActive && {
       filter: 'saturate(0.7) brightness(0.95)',
       '--shimmer-delay': `${shimmerIndex * 0.8}s`,
     }),
   } as React.CSSProperties
 
-  /* ── Active: clickable link with energetic hover + animated border wrapper */
   if (isActive) {
     return (
       <div
-        className="division-border-wrap rounded-xl p-[1px] transition-all duration-300"
+        className="division-border-wrap rounded-2xl p-[1px] transition-all duration-300 h-full"
         style={{
-          /* Default transparent; conic-gradient appears on hover via CSS below */
           '--division-color-60': `${division.color}99`,
           '--division-color-33': `${division.color}55`,
           '--division-color-20': `${division.color}33`,
         } as React.CSSProperties}
       >
-        {/* Scoped styles for the animated border drawing effect.
-            Uses the global --border-angle property + border-rotate keyframe. */}
         <style>{`
           .division-border-wrap {
             background: transparent;
@@ -141,7 +125,6 @@ export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCar
     )
   }
 
-  /* ── Coming soon: non-clickable with shimmer + subtle mystery effect */
   return (
     <div
       className={`${baseClasses} card-shimmer cursor-default overflow-hidden opacity-80 hover:opacity-100`}

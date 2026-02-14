@@ -2,21 +2,15 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { DIVISIONS } from "@/lib/constants";
+import DivisionIcon from "@/components/ui/DivisionIcon";
 
-// ─── Diagram Node Data ──────────────────────────────────────────
-// Positions for the 4 pillar nodes arranged in a diamond pattern
-// around the central "IP" hub. Values are percentages of the
-// container so the layout stays responsive.
 const NODE_POSITIONS: Record<string, { top: string; left: string }> = {
-  writer: { top: "8%", left: "50%" },   // top
-  forge: { top: "50%", left: "92%" },   // right
-  games: { top: "92%", left: "50%" },   // bottom
-  vision: { top: "50%", left: "8%" },   // left
+  writer: { top: "8%", left: "50%" },
+  forge: { top: "50%", left: "92%" },
+  games: { top: "92%", left: "50%" },
+  vision: { top: "50%", left: "8%" },
 };
 
-// ─── SVG Line Endpoints ─────────────────────────────────────────
-// Matching coordinates (in the 200x200 SVG viewBox) so the
-// connecting lines point from the centre to each node.
 const LINE_ENDPOINTS: Record<string, { x: number; y: number }> = {
   writer: { x: 100, y: 22 },
   forge: { x: 178, y: 100 },
@@ -24,7 +18,6 @@ const LINE_ENDPOINTS: Record<string, { x: number; y: number }> = {
   vision: { x: 22, y: 100 },
 };
 
-// ─── Subtle floating animation for each node ───────────────────
 const floatVariants = {
   animate: (i: number) => ({
     y: [0, -6, 0],
@@ -37,7 +30,6 @@ const floatVariants = {
   }),
 };
 
-// ─── Pulse animation for connecting lines ───────────────────────
 const pulseVariants = {
   animate: (i: number) => ({
     opacity: [0.25, 0.6, 0.25],
@@ -50,13 +42,12 @@ const pulseVariants = {
   }),
 };
 
-// ─── Central hub glow animation ─────────────────────────────────
 const glowVariants = {
   animate: {
     boxShadow: [
-      "0 0 20px 4px rgba(124, 58, 237, 0.3), 0 0 40px 8px rgba(59, 130, 246, 0.15)",
-      "0 0 28px 8px rgba(124, 58, 237, 0.45), 0 0 56px 12px rgba(59, 130, 246, 0.25)",
-      "0 0 20px 4px rgba(124, 58, 237, 0.3), 0 0 40px 8px rgba(59, 130, 246, 0.15)",
+      "0 0 20px 4px rgba(124, 58, 237, 0.3), 0 0 40px 8px rgba(6, 214, 160, 0.15)",
+      "0 0 28px 8px rgba(124, 58, 237, 0.45), 0 0 56px 12px rgba(6, 214, 160, 0.25)",
+      "0 0 20px 4px rgba(124, 58, 237, 0.3), 0 0 40px 8px rgba(6, 214, 160, 0.15)",
     ],
     transition: {
       duration: 3,
@@ -72,7 +63,7 @@ export default function PillarDiagram() {
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-md min-h-[300px]">
-      {/* SVG connecting lines (behind everything) */}
+      {/* SVG connecting lines */}
       <svg
         viewBox="0 0 200 200"
         className="absolute inset-0 h-full w-full"
@@ -102,17 +93,17 @@ export default function PillarDiagram() {
       {/* Central "IP" hub */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
         <motion.div
-          className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-from to-brand-to"
+          className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-from to-accent"
           variants={prefersReducedMotion ? undefined : glowVariants}
           animate={prefersReducedMotion ? undefined : "animate"}
         >
-          <span className="text-lg font-bold text-white select-none">
+          <span className="font-display text-lg font-bold text-white select-none">
             IP
           </span>
         </motion.div>
       </div>
 
-      {/* 4 orbiting pillar nodes */}
+      {/* 4 orbiting pillar nodes — now with SVG icons */}
       {DIVISIONS.map((division, i) => {
         const pos = NODE_POSITIONS[division.slug];
         return (
@@ -124,18 +115,14 @@ export default function PillarDiagram() {
             animate={prefersReducedMotion ? undefined : "animate"}
             custom={i}
           >
-            {/* Node circle */}
             <div
               className="flex h-10 w-10 items-center justify-center rounded-full border-2 bg-bg-secondary"
               style={{ borderColor: division.color }}
             >
-              <span className="text-base leading-none select-none" role="img" aria-label={division.name}>
-                {division.icon}
-              </span>
+              <DivisionIcon slug={division.slug} color={division.color} size={18} />
             </div>
-            {/* Division label */}
             <span
-              className="mt-1.5 text-xs font-medium"
+              className="mt-1.5 text-xs font-medium font-display"
               style={{ color: division.color }}
             >
               {division.name.replace("NeoByte", "")}

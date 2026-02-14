@@ -5,53 +5,55 @@ import DivisionCard from '@/components/ui/DivisionCard'
 import TiltCard from '@/components/ui/TiltCard'
 import FloatingOrbs from '@/components/ui/FloatingOrbs'
 
-/**
- * Divisions section -- showcases all four NeoByteStudios divisions in a
- * responsive 2-column grid. Each card fades in with a staggered scroll reveal.
- *
- * Active cards get a 3D tilt effect via the `TiltCard` wrapper.
- * Coming-soon cards get a shimmer scan-line effect instead (CSS-only).
- *
- * This is a **server component**. Client interactivity is handled by the
- * `ScrollReveal` and `TiltCard` wrappers.
- */
 export default function DivisionsSection() {
-  /* Track a separate index for coming-soon cards so their shimmer delay staggers */
   let comingSoonIndex = 0
 
   return (
-    <section id="divisions" className="relative overflow-hidden py-24 md:py-32">
+    <section id="divisions" className="relative overflow-hidden py-32 md:py-48">
       <FloatingOrbs seed={42} />
       <div className="relative mx-auto max-w-6xl px-4">
         {/* ── Section header ──────────────────────────────────────── */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold md:text-4xl">
-            <GradientText>Our Divisions</GradientText>
-          </h2>
+        <div className="text-center mb-16">
+          <ScrollReveal>
+            <h2 className="font-display text-3xl font-bold md:text-5xl">
+              <GradientText>Our Divisions</GradientText>
+            </h2>
+          </ScrollReveal>
 
-          <p className="mx-auto mt-4 max-w-2xl text-text-secondary">
-            Four pillars, one vision. Each division serves a unique role in
-            bringing our intellectual properties to life.
-          </p>
+          <ScrollReveal delay={0.1}>
+            <p className="mx-auto mt-6 max-w-2xl text-text-secondary text-lg">
+              Four pillars, one vision. Each division serves a unique role in
+              bringing our intellectual properties to life.
+            </p>
+          </ScrollReveal>
         </div>
 
-        {/* ── Division cards grid ─────────────────────────────────── */}
-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {/* ── Bento grid layout — Writer (active) gets featured spot ── */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:grid-rows-2">
           {DIVISIONS.map((division, index) => {
             const isActive = division.status === 'active'
             const shimmerIdx = isActive ? 0 : comingSoonIndex++
 
+            // Writer (active) spans 4 cols, 2 rows — featured card
+            const isWriter = division.slug === 'writer'
+            const gridClass = isWriter
+              ? 'md:col-span-4 md:row-span-2'
+              : 'md:col-span-2'
+
             return (
               <ScrollReveal key={division.slug} delay={index * 0.1}>
-                <TiltCard
-                  enabled={isActive}
-                  className="relative rounded-xl"
-                >
-                  <DivisionCard
-                    division={division}
-                    shimmerIndex={shimmerIdx}
-                  />
-                </TiltCard>
+                <div className={gridClass + ' h-full'}>
+                  <TiltCard
+                    enabled={isActive}
+                    className="relative rounded-2xl h-full"
+                  >
+                    <DivisionCard
+                      division={division}
+                      shimmerIndex={shimmerIdx}
+                      featured={isWriter}
+                    />
+                  </TiltCard>
+                </div>
               </ScrollReveal>
             )
           })}
