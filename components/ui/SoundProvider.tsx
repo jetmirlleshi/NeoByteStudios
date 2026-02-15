@@ -55,6 +55,9 @@ export default function SoundProvider({
   useEffect(() => {
     const stored = localStorage.getItem('nbs-sound')
     if (stored === 'on') setMuted(false)
+    return () => {
+      ctxRef.current?.close()
+    }
   }, [])
 
   const getCtx = useCallback(() => {

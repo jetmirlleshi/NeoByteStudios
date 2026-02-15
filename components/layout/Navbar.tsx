@@ -1,36 +1,100 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { NAVBAR_HEIGHT, NAVIGATION_LINKS, SITE } from '@/lib/constants'
+import { NAVBAR_HEIGHT, NAVIGATION_LINKS, SITE, type NavLink } from '@/lib/constants'
 import AnimatedLogo from '@/components/ui/AnimatedLogo'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import SoundToggle from '@/components/ui/SoundToggle'
+
+// ── NavItem — shared between desktop and mobile ──────────────
+
+interface NavItemProps {
+  link: NavLink
+  mobile?: boolean
+  active: boolean
+  onNavigate: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void
+}
+
+function NavItem({ link, mobile = false, active, onNavigate }: NavItemProps) {
+  // Resolve class names based on context
+  const desktopNormal = `nav-link-hover rounded-md px-4 py-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary ${
+    active ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'
+  }`
+
+  const desktopHighlight =
+    'group relative ml-3 inline-flex items-center rounded-lg px-4 py-2 text-sm font-semibold text-text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
+
+  const mobileNormal = `block rounded-md px-4 py-3 text-base transition-colors hover:bg-bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary ${
+    active ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'
+  }`
+
+  const mobileHighlight =
+    'mt-4 flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-from to-brand-to px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary'
+
+  const className = mobile
+    ? (link.highlight ? mobileHighlight : mobileNormal)
+    : (link.highlight ? desktopHighlight : desktopNormal)
+
+  // Highlight inner content (gradient border effect) — desktop only
+  const highlightContent = !mobile && link.highlight ? (
+    <>
+      <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-brand-from to-brand-to" />
+      <span className="absolute inset-[1px] rounded-[7px] bg-bg-primary transition-colors duration-200 group-hover:bg-bg-secondary" />
+      <span className="relative">{link.label}</span>
+    </>
+  ) : (
+    link.label
+  )
+
+  if (link.external) {
+    return (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+      >
+        {highlightContent}
+      </a>
+    )
+  }
+
+  return (
+    <Link
+      href={link.href}
+      scroll={!link.href.includes('#')}
+      onClick={(e) => onNavigate(e, link.href)}
+      className={className}
+    >
+      {highlightContent}
+    </Link>
+  )
+}
+
+// ── Main Navbar ─────────────────────────────────────────────
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const pathname = usePathname()
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
 
-  // ── Scroll progress for progress bar ────────────────────────
   const { scrollYProgress } = useScroll()
   const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1])
 
-  // ── Helper: is this link "active" based on the current route? ──
   const isActive = (href: string): boolean => {
-    // Hash links on homepage (e.g. /#divisions) — active when on homepage
     if (href.startsWith('/#')) return pathname === '/'
-    // Exact match for route-based links (/, /about, etc.)
     return pathname === href
   }
 
-  // ── Scroll to hash after cross-page navigation ─────────────────
+  // ── Scroll to hash after cross-page navigation ──────────────
   useEffect(() => {
     const hash = window.location.hash
     if (hash) {
-      // Small delay to ensure the page has rendered
       const timer = setTimeout(() => {
         const target = document.querySelector(hash)
         if (target) {
@@ -43,52 +107,71 @@ export default function Navbar() {
     }
   }, [pathname])
 
-  // ── Escape key closes mobile menu ──────────────────────────────
+  // ── Focus trap + Escape for mobile menu ─────────────────────
   useEffect(() => {
     if (!mobileOpen) return
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setMobileOpen(false)
+
+    const panel = mobileMenuRef.current
+    if (panel) {
+      const focusable = panel.querySelectorAll<HTMLElement>(
+        'a[href], button, input, [tabindex]:not([tabindex="-1"])'
+      )
+      if (focusable.length > 0) focusable[0].focus()
     }
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false)
+        hamburgerRef.current?.focus()
+        return
+      }
+
+      if (e.key === 'Tab' && panel) {
+        const focusable = panel.querySelectorAll<HTMLElement>(
+          'a[href], button, input, [tabindex]:not([tabindex="-1"])'
+        )
+        if (focusable.length === 0) return
+
+        const first = focusable[0]
+        const last = focusable[focusable.length - 1]
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [mobileOpen])
 
-  // ── Scroll detection ──────────────────────────────────────────
+  // ── Scroll detection ────────────────────────────────────────
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
-
-    // Check initial position (e.g. if user refreshed mid-page)
+    const handleScroll = () => setScrolled(window.scrollY > 50)
     handleScroll()
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // ── Lock body scroll when mobile menu is open ─────────────────
+  // ── Lock body scroll when mobile menu is open ───────────────
   useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-    return () => {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
   }, [mobileOpen])
 
-  // ── Smooth scroll handler for anchor links ────────────────────
+  // ── Smooth scroll handler for anchor links ──────────────────
   const handleNavClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-      // Handle /#hash links — scroll if on homepage, else let Next.js navigate
       const hashIndex = href.indexOf('#')
       if (hashIndex !== -1) {
         const path = href.substring(0, hashIndex) || '/'
         const hash = href.substring(hashIndex)
 
         if (pathname === path || (path === '/' && pathname === '/')) {
-          // Already on the correct page — smooth scroll
           e.preventDefault()
           const target = document.querySelector(hash)
           if (target) {
@@ -97,10 +180,8 @@ export default function Navbar() {
             window.scrollTo({ top, behavior: 'smooth' })
           }
         }
-        // else: let Next.js handle navigation to the page with the hash
         setMobileOpen(false)
       } else if (!href.startsWith('http')) {
-        // Internal non-anchor link — just close mobile menu
         setMobileOpen(false)
       }
     },
@@ -109,33 +190,6 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Nav link hover underline animation — scoped keyframe-free CSS */}
-      <style>{`
-        .nav-link-hover {
-          position: relative;
-        }
-        .nav-link-hover::after {
-          content: '';
-          position: absolute;
-          left: 0;
-          bottom: -2px;
-          width: 0%;
-          height: 2px;
-          background: linear-gradient(to right, var(--brand-from), var(--brand-to));
-          transition: width 0.3s ease;
-          border-radius: 1px;
-        }
-        .nav-link-hover:hover::after {
-          width: 100%;
-        }
-        @media (prefers-reduced-motion: reduce) {
-          .nav-link-hover::after {
-            transition: none;
-          }
-        }
-      `}</style>
-
-      {/* ── Fixed navbar ──────────────────────────────────────── */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
@@ -144,7 +198,7 @@ export default function Navbar() {
         }`}
       >
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-6">
-          {/* ── Logo ────────────────────────────────────────── */}
+          {/* Logo */}
           <Link
             href="/"
             className="flex items-center gap-2.5 select-none rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
@@ -157,77 +211,33 @@ export default function Navbar() {
             </span>
           </Link>
 
-          {/* ── Desktop links ───────────────────────────────── */}
+          {/* Desktop links */}
           <ul className="hidden items-center gap-1 md:flex">
             {NAVIGATION_LINKS.map((link) => (
               <li key={link.label}>
-                {link.external ? (
-                  // External link — keep as <a>
-                  <a
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={
-                      link.highlight
-                        ? 'group relative ml-3 inline-flex items-center rounded-lg px-4 py-2 text-sm font-semibold text-text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
-                        : 'nav-link-hover rounded-md px-4 py-2 text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
-                    }
-                  >
-                    {link.highlight ? (
-                      <>
-                        {/* Gradient border background */}
-                        <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-brand-from to-brand-to" />
-                        {/* Inner fill that leaves a 1px border visible */}
-                        <span className="absolute inset-[1px] rounded-[7px] bg-bg-primary transition-colors duration-200 group-hover:bg-bg-secondary" />
-                        <span className="relative">{link.label}</span>
-                      </>
-                    ) : (
-                      link.label
-                    )}
-                  </a>
-                ) : (
-                  // Internal link — use Next.js <Link>
-                  <Link
-                    href={link.href}
-                    scroll={false}
-                    onClick={(e) => handleNavClick(e, link.href)}
-                    className={
-                      link.highlight
-                        ? 'group relative ml-3 inline-flex items-center rounded-lg px-4 py-2 text-sm font-semibold text-text-primary transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary'
-                        : `nav-link-hover rounded-md px-4 py-2 text-sm transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary ${
-                            isActive(link.href)
-                              ? 'text-text-primary'
-                              : 'text-text-secondary hover:text-text-primary'
-                          }`
-                    }
-                  >
-                    {link.highlight ? (
-                      <>
-                        <span className="absolute inset-0 rounded-lg bg-gradient-to-r from-brand-from to-brand-to" />
-                        <span className="absolute inset-[1px] rounded-[7px] bg-bg-primary transition-colors duration-200 group-hover:bg-bg-secondary" />
-                        <span className="relative">{link.label}</span>
-                      </>
-                    ) : (
-                      link.label
-                    )}
-                  </Link>
-                )}
+                <NavItem
+                  link={link}
+                  active={isActive(link.href)}
+                  onNavigate={handleNavClick}
+                />
               </li>
             ))}
           </ul>
 
-          {/* ── Theme + Sound toggles ─────────────────────── */}
+          {/* Desktop toggles */}
           <div className="hidden items-center gap-1 md:flex ml-2">
             <ThemeToggle />
             <SoundToggle />
           </div>
 
-          {/* ── Mobile hamburger button ─────────────────────── */}
+          {/* Mobile hamburger */}
           <button
+            ref={hamburgerRef}
             type="button"
-            className="relative z-50 flex h-10 w-10 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text-primary md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+            className="relative z-50 flex h-11 w-11 items-center justify-center rounded-md text-text-secondary transition-colors hover:text-text-primary md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
             onClick={() => setMobileOpen((prev) => !prev)}
             aria-expanded={mobileOpen}
+            aria-controls="mobile-nav-menu"
             aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
           >
             <svg
@@ -243,13 +253,11 @@ export default function Navbar() {
             >
               {mobileOpen ? (
                 <>
-                  {/* X icon */}
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </>
               ) : (
                 <>
-                  {/* Hamburger icon */}
                   <line x1="4" y1="6" x2="20" y2="6" />
                   <line x1="4" y1="12" x2="20" y2="12" />
                   <line x1="4" y1="18" x2="20" y2="18" />
@@ -259,18 +267,17 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* ── Scroll progress bar ───────────────────────────── */}
+        {/* Scroll progress bar */}
         <motion.div
           className="absolute bottom-0 left-0 right-0 h-[2px] origin-left bg-gradient-to-r from-brand-from via-accent to-brand-to"
           style={{ scaleX }}
         />
       </nav>
 
-      {/* ── Mobile slide-in panel ─────────────────────────────── */}
+      {/* Mobile slide-in panel */}
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Backdrop overlay */}
             <motion.div
               key="backdrop"
               initial={{ opacity: 0 }}
@@ -282,16 +289,19 @@ export default function Navbar() {
               aria-hidden="true"
             />
 
-            {/* Slide-in panel from right */}
             <motion.div
+              ref={mobileMenuRef}
               key="mobile-menu"
+              id="mobile-nav-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation menu"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
               className="fixed top-0 right-0 z-40 flex h-full w-72 flex-col bg-bg-secondary pt-24 shadow-2xl md:hidden"
             >
-              {/* Mobile theme + sound toggles */}
               <div className="flex items-center gap-2 px-6 mb-4">
                 <ThemeToggle />
                 <SoundToggle />
@@ -300,39 +310,12 @@ export default function Navbar() {
               <ul className="flex flex-col gap-2 px-6">
                 {NAVIGATION_LINKS.map((link) => (
                   <li key={link.label}>
-                    {link.external ? (
-                      // External link — keep as <a>
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={
-                          link.highlight
-                            ? 'mt-4 flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-from to-brand-to px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary'
-                            : 'block rounded-md px-4 py-3 text-base text-text-secondary transition-colors hover:bg-bg-card hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary'
-                        }
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      // Internal link — use Next.js <Link>
-                      <Link
-                        href={link.href}
-                        scroll={false}
-                        onClick={(e) => handleNavClick(e, link.href)}
-                        className={
-                          link.highlight
-                            ? 'mt-4 flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-from to-brand-to px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary'
-                            : `block rounded-md px-4 py-3 text-base transition-colors hover:bg-bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-secondary ${
-                                isActive(link.href)
-                                  ? 'text-text-primary'
-                                  : 'text-text-secondary hover:text-text-primary'
-                              }`
-                        }
-                      >
-                        {link.label}
-                      </Link>
-                    )}
+                    <NavItem
+                      link={link}
+                      mobile
+                      active={isActive(link.href)}
+                      onNavigate={handleNavClick}
+                    />
                   </li>
                 ))}
               </ul>

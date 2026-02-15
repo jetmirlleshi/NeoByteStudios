@@ -1,20 +1,16 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Space_Grotesk } from 'next/font/google'
+import { Geist, Space_Grotesk } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ThemeProvider from '@/components/ui/ThemeProvider'
 import SoundProvider from '@/components/ui/SoundProvider'
 import CustomCursor from '@/components/ui/CustomCursor'
+import ErrorBoundary from '@/components/ui/ErrorBoundary'
 import { SITE, SOCIAL_LINKS } from '@/lib/constants'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
-  subsets: ['latin'],
-})
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
   subsets: ['latin'],
 })
 
@@ -77,7 +73,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${spaceGrotesk.variable} antialiased flex min-h-screen flex-col`}
+        className={`${geistSans.variable} ${spaceGrotesk.variable} antialiased flex min-h-screen flex-col`}
       >
         <a
           href="#main-content"
@@ -99,13 +95,29 @@ export default function RootLayout({
             }),
           }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'WebSite',
+              name: SITE.name,
+              url: SITE.url,
+              description: SITE.description,
+            }),
+          }}
+        />
         <ThemeProvider>
-          <SoundProvider>
-            <CustomCursor />
-            <Navbar />
-            <main id="main-content" className="flex-1">{children}</main>
-            <Footer />
-          </SoundProvider>
+          <ErrorBoundary>
+            <SoundProvider>
+              <ErrorBoundary>
+                <CustomCursor />
+              </ErrorBoundary>
+              <Navbar />
+              <main id="main-content" className="flex-1">{children}</main>
+              <Footer />
+            </SoundProvider>
+          </ErrorBoundary>
         </ThemeProvider>
       </body>
     </html>

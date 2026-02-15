@@ -7,6 +7,7 @@ import ScrollReveal from '@/components/ui/ScrollReveal'
 import Badge from '@/components/ui/Badge'
 import DivisionIcon from '@/components/ui/DivisionIcon'
 import FloatingOrbs from '@/components/ui/FloatingOrbs'
+import WaitlistForm from '@/components/ui/WaitlistForm'
 
 export function generateStaticParams() {
   return DIVISIONS.map((d) => ({ slug: d.slug }))
@@ -25,8 +26,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${division.name} — ${SITE.name}`,
-    description: `${division.tagline}. ${division.description}`,
+    title: division.metaTitle,
+    description: division.metaDescription,
     alternates: {
       canonical: `/divisions/${slug}`,
     },
@@ -45,9 +46,54 @@ export default async function DivisionPage({
 
   const isActive = division.status === 'active'
 
+  const faqSchema = division.faq.length > 0
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: division.faq.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer,
+          },
+        })),
+      }
+    : null
+
+  const softwareSchema = isActive && division.url
+    ? {
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: division.name,
+        url: division.url,
+        description: division.metaDescription,
+        applicationCategory: 'Productivity',
+        operatingSystem: 'Web',
+        offers: {
+          '@type': 'Offer',
+          price: '0',
+          priceCurrency: 'USD',
+        },
+      }
+    : null
+
   return (
     <section className="relative overflow-hidden">
       <FloatingOrbs seed={division.slug.length * 17} />
+
+      {faqSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+      )}
+      {softwareSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+        />
+      )}
 
       <div className="relative max-w-3xl mx-auto px-4 py-32 md:py-48">
         {/* ── Icon + Name ──────────────────────────────────────── */}
@@ -85,17 +131,88 @@ export default async function DivisionPage({
           </div>
         </ScrollReveal>
 
-        {/* ── Description ──────────────────────────────────────── */}
+        {/* ── Long Description ─────────────────────────────────── */}
         <ScrollReveal delay={0.2}>
           <p className="text-text-secondary text-base md:text-lg leading-relaxed mt-8">
-            {division.description}
+            {division.longDescription}
           </p>
         </ScrollReveal>
 
+        {/* ── Features ─────────────────────────────────────────── */}
+        {division.features.length > 0 && (
+          <ScrollReveal delay={0.25}>
+            <div className="mt-12">
+              <h2 className="font-display text-xl md:text-2xl font-bold mb-6">
+                <GradientText>Key Features</GradientText>
+              </h2>
+              <ul className="space-y-3">
+                {division.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3">
+                    <span
+                      className="mt-1.5 flex-shrink-0 h-2 w-2 rounded-full"
+                      style={{ backgroundColor: division.color }}
+                    />
+                    <span className="text-text-secondary text-sm md:text-base">
+                      {feature}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
+        )}
+
+        {/* ── Use Cases ────────────────────────────────────────── */}
+        {division.useCases.length > 0 && (
+          <ScrollReveal delay={0.3}>
+            <div className="mt-12">
+              <h2 className="font-display text-xl md:text-2xl font-bold mb-6">
+                <GradientText>Who Is It For</GradientText>
+              </h2>
+              <ul className="space-y-3">
+                {division.useCases.map((useCase) => (
+                  <li key={useCase} className="flex items-start gap-3">
+                    <span
+                      className="mt-1.5 flex-shrink-0 h-2 w-2 rounded-full"
+                      style={{ backgroundColor: division.color, opacity: 0.6 }}
+                    />
+                    <span className="text-text-secondary text-sm md:text-base">
+                      {useCase}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </ScrollReveal>
+        )}
+
+        {/* ── FAQ ──────────────────────────────────────────────── */}
+        {division.faq.length > 0 && (
+          <ScrollReveal delay={0.35}>
+            <div className="mt-12">
+              <h2 className="font-display text-xl md:text-2xl font-bold mb-6">
+                <GradientText>Frequently Asked Questions</GradientText>
+              </h2>
+              <div className="space-y-6">
+                {division.faq.map((item) => (
+                  <div key={item.question}>
+                    <h3 className="font-display font-bold text-text-primary text-base md:text-lg">
+                      {item.question}
+                    </h3>
+                    <p className="mt-2 text-text-secondary text-sm md:text-base leading-relaxed">
+                      {item.answer}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </ScrollReveal>
+        )}
+
         {/* ── CTA / Coming-soon teaser ─────────────────────────── */}
-        <ScrollReveal delay={0.3}>
+        <ScrollReveal delay={0.4}>
           {isActive && division.url ? (
-            <div className="mt-10">
+            <div className="mt-10 flex flex-wrap gap-4">
               <a
                 href={division.url}
                 target="_blank"
@@ -121,30 +238,56 @@ export default async function DivisionPage({
                     group-hover:bg-bg-primary/90
                   "
                 >
-                  Visit {division.name}&nbsp;&rarr;
+                  Try {division.name}&nbsp;&rarr;
                 </span>
-                <style>{`
-                  [data-division-cta]:hover {
-                    box-shadow: 0 0 24px 4px ${division.color}73;
-                  }
-                `}</style>
               </a>
             </div>
           ) : (
             <div
-              className="mt-10 rounded-2xl p-6 glass-card relative"
+              className="mt-10 rounded-2xl p-6 md:p-8 glass-card relative"
               style={{ borderLeft: `2px solid ${division.color}40` }}
             >
-              <p className="text-text-muted text-sm md:text-base">
-                This division is currently in development. Stay tuned for
-                updates.
+              <h2 className="font-display text-lg md:text-xl font-bold text-text-primary mb-3">
+                Be Among the First
+              </h2>
+              <p className="text-text-secondary text-sm md:text-base leading-relaxed">
+                {division.name} is currently in active development.
+                {division.expectedLaunch && (
+                  <> We&apos;re targeting a <strong className="text-text-primary">{division.expectedLaunch}</strong> launch.</>
+                )}
               </p>
+
+              {/* Progress bar */}
+              {division.developmentProgress != null && (
+                <div className="mt-5 space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-text-muted">Development Progress</span>
+                    <span className="font-medium" style={{ color: division.color }}>
+                      {division.developmentProgress}%
+                    </span>
+                  </div>
+                  <div className="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${division.developmentProgress}%`,
+                        background: `linear-gradient(90deg, ${division.color}, ${division.color}99)`,
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <p className="mt-5 text-text-muted text-xs md:text-sm">
+                Join the waitlist to get early access and development updates.
+              </p>
+              <WaitlistForm division={division.slug} color={division.color} />
             </div>
           )}
         </ScrollReveal>
 
         {/* ── Back link ────────────────────────────────────────── */}
-        <ScrollReveal delay={0.4}>
+        <ScrollReveal delay={0.45}>
           <div className="mt-20">
             <Link
               href="/#divisions"

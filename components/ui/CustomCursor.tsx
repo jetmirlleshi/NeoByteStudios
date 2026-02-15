@@ -31,15 +31,20 @@ export default function CustomCursor() {
     }
 
     let rafId: number
+    let isTabActive = true
+
     const animate = () => {
+      if (!isTabActive) {
+        rafId = requestAnimationFrame(animate)
+        return
+      }
+
       const { x, y } = mousePos.current
 
-      // Main cursor
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${x - 10}px, ${y - 10}px)`
       }
 
-      // Trail particles follow with eased delay
       positions.forEach((pos, i) => {
         const target = i === 0 ? mousePos.current : positions[i - 1]
         const ease = 0.15 - i * 0.02
@@ -59,10 +64,16 @@ export default function CustomCursor() {
       rafId = requestAnimationFrame(animate)
     }
 
+    const handleVisibilityChange = () => {
+      isTabActive = document.visibilityState === 'visible'
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
     rafId = requestAnimationFrame(animate)
 
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('mousemove', handleMouseMove)
       cancelAnimationFrame(rafId)
       document.documentElement.classList.remove('custom-cursor-active')

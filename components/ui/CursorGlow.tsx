@@ -34,10 +34,14 @@ export default function CursorGlow() {
     currentPos.current.y +=
       (mousePos.current.y - currentPos.current.y) * LERP_FACTOR;
 
+    const isLight = document.documentElement.dataset.theme === 'light'
+    const alpha1 = isLight ? 0.08 : 0.15
+    const alpha2 = isLight ? 0.03 : 0.06
+
     glowRef.current.style.background = `radial-gradient(
       350px circle at ${currentPos.current.x}px ${currentPos.current.y}px,
-      rgba(124, 58, 237, 0.15) 0%,
-      rgba(124, 58, 237, 0.06) 40%,
+      rgba(124, 58, 237, ${alpha1}) 0%,
+      rgba(124, 58, 237, ${alpha2}) 40%,
       transparent 70%
     )`;
 

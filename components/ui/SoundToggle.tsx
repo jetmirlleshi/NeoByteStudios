@@ -9,7 +9,7 @@ export default function SoundToggle() {
     <button
       type="button"
       onClick={toggleMute}
-      className="relative flex h-8 w-8 items-center justify-center rounded-lg text-text-secondary transition-colors duration-200 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+      className="relative flex h-11 w-11 items-center justify-center rounded-lg text-text-secondary transition-colors duration-200 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
       aria-label={muted ? 'Unmute sound effects' : 'Mute sound effects'}
     >
       <svg

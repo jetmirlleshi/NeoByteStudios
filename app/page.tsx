@@ -1,4 +1,5 @@
 import Hero from '@/components/sections/Hero'
+import SocialProof from '@/components/sections/SocialProof'
 import DivisionsSection from '@/components/sections/DivisionsSection'
 import VisionSection from '@/components/sections/VisionSection'
 import IPShowcase from '@/components/sections/IPShowcase'
@@ -9,6 +10,9 @@ export default function Home() {
     <>
       <div className="snap-section">
         <Hero />
+      </div>
+      <div className="snap-section">
+        <SocialProof />
       </div>
       <SectionDivider variant="wave" />
       <div className="snap-section">

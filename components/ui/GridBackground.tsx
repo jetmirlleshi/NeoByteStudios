@@ -34,22 +34,6 @@ export default function GridBackground() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
     >
-      {/* Keyframe definitions */}
-      <style>{`
-        @keyframes grid-scroll {
-          0%   { transform: perspective(600px) rotateX(55deg) translateY(0); }
-          100% { transform: perspective(600px) rotateX(55deg) translateY(60px); }
-        }
-        @keyframes dot-glow {
-          0%, 100% { opacity: 0; transform: scale(0.6); }
-          50%      { opacity: 1; transform: scale(1.2); }
-        }
-        @keyframes grid-pulse {
-          0%, 100% { opacity: 0.55; }
-          50%      { opacity: 1; }
-        }
-      `}</style>
-
       {/* Perspective grid -- tilted with rotateX for vanishing-point depth effect */}
       <div
         className="absolute inset-x-0 bottom-0"
@@ -58,10 +42,10 @@ export default function GridBackground() {
           transformOrigin: "center bottom",
           animation:
             "grid-scroll 12s linear infinite, grid-pulse 8s ease-in-out infinite",
-          willChange: "transform, opacity",
+          /* willChange removed — CSS animation already promotes to compositor */
           backgroundImage: [
-            `repeating-linear-gradient(90deg,rgba(124,58,237,0.08) 0px,rgba(124,58,237,0.08) 1px,transparent 1px,transparent 60px)`,
-            `repeating-linear-gradient(0deg,rgba(59,130,246,0.08) 0px,rgba(59,130,246,0.08) 1px,transparent 1px,transparent 60px)`,
+            `repeating-linear-gradient(90deg,color-mix(in srgb, var(--brand-from) 8%, transparent) 0px,color-mix(in srgb, var(--brand-from) 8%, transparent) 1px,transparent 1px,transparent 60px)`,
+            `repeating-linear-gradient(0deg,color-mix(in srgb, var(--brand-to) 8%, transparent) 0px,color-mix(in srgb, var(--brand-to) 8%, transparent) 1px,transparent 1px,transparent 60px)`,
           ].join(","),
           backgroundSize: "60px 60px",
         }}
@@ -73,8 +57,8 @@ export default function GridBackground() {
         style={{
           opacity: 0.35,
           backgroundImage: [
-            `repeating-linear-gradient(90deg,rgba(124,58,237,0.05) 0px,rgba(124,58,237,0.05) 1px,transparent 1px,transparent 80px)`,
-            `repeating-linear-gradient(0deg,rgba(59,130,246,0.05) 0px,rgba(59,130,246,0.05) 1px,transparent 1px,transparent 80px)`,
+            `repeating-linear-gradient(90deg,color-mix(in srgb, var(--brand-from) 5%, transparent) 0px,color-mix(in srgb, var(--brand-from) 5%, transparent) 1px,transparent 1px,transparent 80px)`,
+            `repeating-linear-gradient(0deg,color-mix(in srgb, var(--brand-to) 5%, transparent) 0px,color-mix(in srgb, var(--brand-to) 5%, transparent) 1px,transparent 1px,transparent 80px)`,
           ].join(","),
           backgroundSize: "80px 80px",
         }}
@@ -92,9 +76,9 @@ export default function GridBackground() {
             height: dot.size,
             borderRadius: "50%",
             backgroundColor: "var(--brand-from)",
-            boxShadow: "0 0 6px 2px rgba(124,58,237,0.5)",
+            boxShadow: "0 0 6px 2px color-mix(in srgb, var(--brand-from) 50%, transparent)",
             animation: `dot-glow ${dot.duration}s ease-in-out ${dot.delay}s infinite`,
-            willChange: "opacity, transform",
+            /* willChange removed — CSS animation promotes layer */
             opacity: 0,
           }}
         />

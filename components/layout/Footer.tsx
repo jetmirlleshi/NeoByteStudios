@@ -85,22 +85,22 @@ export default function Footer() {
         </div>
 
         {/* ── 3-column grid ─────────────────────────────────── */}
-        <div className="grid gap-12 md:grid-cols-3">
+        <nav aria-label="Footer navigation" className="grid gap-12 md:grid-cols-3">
           {/* Column 1 — About */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
               Studio
-            </h3>
+            </h2>
             <p className="text-sm text-text-secondary leading-relaxed">
-              An AI-first studio creating cross-media intellectual properties. Four divisions, one vision.
+              One creator, AI-amplified. Building original cross-media intellectual properties across four divisions.
             </p>
           </div>
 
           {/* Column 2 — Divisions */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
               Divisions
-            </h3>
+            </h2>
             <ul className="flex flex-col gap-3">
               {DIVISIONS.map((div) => (
                 <li key={div.slug} className="flex items-center gap-2.5">
@@ -111,7 +111,7 @@ export default function Footer() {
                   >
                     {div.name}
                     {div.status === 'coming-soon' && (
-                      <span className="text-xs italic text-text-muted/60 ml-1">
+                      <span className="text-xs italic text-text-muted ml-1">
                         (coming soon)
                       </span>
                     )}
@@ -123,9 +123,9 @@ export default function Footer() {
 
           {/* Column 3 — Social links with brand colors on hover */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
+            <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
               Connect
-            </h3>
+            </h2>
             <ul className="flex items-center gap-4">
               {SOCIAL_LINKS.map((social) => (
                 <li key={social.label}>
@@ -134,20 +134,10 @@ export default function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="group flex h-10 w-10 items-center justify-center rounded-xl border border-border-custom text-text-secondary transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+                    className="social-icon-link group flex h-11 w-11 items-center justify-center rounded-xl border border-border-custom text-text-secondary transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
                     style={{
                       '--social-color': social.brandColor,
                     } as React.CSSProperties}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = social.brandColor
-                      e.currentTarget.style.color = social.brandColor
-                      e.currentTarget.style.boxShadow = `0 0 16px 2px ${social.brandColor}33`
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = ''
-                      e.currentTarget.style.color = ''
-                      e.currentTarget.style.boxShadow = ''
-                    }}
                   >
                     <SocialIcon icon={social.icon} />
                   </a>
@@ -155,7 +145,7 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-        </div>
+        </nav>
 
         {/* ── Bottom bar ────────────────────────────────────── */}
         <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border-custom pt-8 sm:flex-row">

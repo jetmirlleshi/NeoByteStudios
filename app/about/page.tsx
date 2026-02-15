@@ -89,6 +89,35 @@ export default function AboutPage() {
           </ScrollReveal>
         </div>
 
+        {/* ── What Makes Us Different ─────────────────────────────── */}
+        <ScrollReveal delay={0.35}>
+          <div className="mt-16">
+            <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">
+              <GradientText>What Makes Us Different</GradientText>
+            </h2>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3">
+                <span className="mt-1.5 flex-shrink-0 h-2 w-2 rounded-full bg-accent" />
+                <p className="text-text-secondary text-base leading-relaxed">
+                  <strong className="text-text-primary">Cross-media from day zero.</strong> Every universe we build is designed to work across books, games, and visual media simultaneously — not as adaptations, but as native expressions.
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="mt-1.5 flex-shrink-0 h-2 w-2 rounded-full bg-brand-from" />
+                <p className="text-text-secondary text-base leading-relaxed">
+                  <strong className="text-text-primary">AI-amplified, human-directed.</strong> We use AI to handle operational complexity, but every creative decision — from story arcs to visual direction — is driven by human intent.
+                </p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="mt-1.5 flex-shrink-0 h-2 w-2 rounded-full bg-brand-to" />
+                <p className="text-text-secondary text-base leading-relaxed">
+                  <strong className="text-text-primary">One-person studio model.</strong> We prove that a single creator with the right tools can build at the scope and quality of a traditional studio — and we build those tools ourselves.
+                </p>
+              </div>
+            </div>
+          </div>
+        </ScrollReveal>
+
         {/* ── Visual Timeline ──────────────────────────────────────── */}
         <div className="mt-20">
           <ScrollReveal>
@@ -106,10 +135,10 @@ export default function AboutPage() {
               }}
             />
 
-            <div className="space-y-12">
+            <ol className="space-y-12">
               {TIMELINE.map((item, i) => (
                 <ScrollReveal key={item.year} delay={0.1 * i}>
-                  <div className="flex gap-6 items-start">
+                  <li className="flex gap-6 items-start">
                     {/* Timeline dot */}
                     <div className="relative flex-shrink-0">
                       <div
@@ -137,12 +166,42 @@ export default function AboutPage() {
                         {item.description}
                       </p>
                     </div>
-                  </div>
+                  </li>
                 </ScrollReveal>
               ))}
-            </div>
+            </ol>
           </div>
         </div>
+
+        {/* ── Final CTA ──────────────────────────────────────────── */}
+        <ScrollReveal delay={0.4}>
+          <div className="mt-20 rounded-2xl p-8 glass-card relative text-center">
+            <h2 className="font-display text-xl md:text-2xl font-bold">
+              <GradientText>Ready to See What We&apos;re Building?</GradientText>
+            </h2>
+            <p className="mt-3 text-text-secondary text-sm md:text-base max-w-lg mx-auto">
+              Start with NeoByteWriter — our first division, built for fantasy authors and worldbuilders.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-4">
+              <a
+                href="https://neobytewriter.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative inline-block rounded-full p-[1px] bg-gradient-to-r from-brand-from to-accent transition-shadow duration-300 hover:shadow-[0_0_24px_4px_rgba(6,214,160,0.3)]"
+              >
+                <span className="block rounded-full px-8 py-3 bg-bg-primary text-text-primary font-medium transition-colors duration-300 group-hover:bg-bg-primary/90">
+                  Try NeoByteWriter&nbsp;&rarr;
+                </span>
+              </a>
+              <Link
+                href="/#divisions"
+                className="inline-flex items-center rounded-full px-8 py-3 text-sm font-medium text-text-secondary border border-border-custom transition-colors duration-200 hover:text-text-primary hover:border-text-muted"
+              >
+                Explore All Divisions
+              </Link>
+            </div>
+          </div>
+        </ScrollReveal>
 
         {/* ── Back link ───────────────────────────────────────────── */}
         <ScrollReveal delay={0.5}>

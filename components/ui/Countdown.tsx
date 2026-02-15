@@ -22,7 +22,7 @@ function getTimeLeft(target: Date): TimeLeft {
 
 export default function Countdown() {
   const target = new Date('2026-12-31T00:00:00')
-  const [time, setTime] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  const [time, setTime] = useState<TimeLeft | null>(null)
 
   useEffect(() => {
     setTime(getTimeLeft(target))
@@ -32,11 +32,22 @@ export default function Countdown() {
   }, [])
 
   const units = [
-    { label: 'Days', value: time.days },
-    { label: 'Hours', value: time.hours },
-    { label: 'Min', value: time.minutes },
-    { label: 'Sec', value: time.seconds },
+    { label: 'Days', value: time?.days },
+    { label: 'Hours', value: time?.hours },
+    { label: 'Min', value: time?.minutes },
+    { label: 'Sec', value: time?.seconds },
   ]
+
+  if (time && time.days === 0 && time.hours === 0 && time.minutes === 0 && time.seconds === 0) {
+    return (
+      <p
+        className="font-display text-2xl md:text-3xl font-bold"
+        style={{ color: 'var(--accent)' }}
+      >
+        The universe has arrived.
+      </p>
+    )
+  }
 
   return (
     <div className="flex items-center justify-center gap-3 md:gap-4">
@@ -46,10 +57,12 @@ export default function Countdown() {
             className="font-display text-3xl md:text-5xl font-bold tabular-nums"
             style={{
               color: 'var(--accent)',
-              animation: 'count-glow 3s ease-in-out infinite',
+              animation: time ? 'count-glow 3s ease-in-out infinite' : undefined,
             }}
           >
-            {String(unit.value).padStart(2, '0')}
+            {time !== null ? String(unit.value).padStart(2, '0') : (
+              <span className="inline-block w-[1.5ch] h-[1em] rounded bg-border-custom animate-pulse" />
+            )}
           </span>
           <span className="mt-1 text-xs uppercase tracking-widest text-text-muted">
             {unit.label}

@@ -1,8 +1,23 @@
 import type { MetadataRoute } from 'next'
-import { SITE } from '@/lib/constants'
+import { SITE, DIVISIONS } from '@/lib/constants'
+import { getAllPosts } from '@/lib/blog'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = SITE.url
+
+  const divisionPages: MetadataRoute.Sitemap = DIVISIONS.map((d) => ({
+    url: `${baseUrl}/divisions/${d.slug}`,
+    lastModified: new Date(),
+    changeFrequency: d.status === 'active' ? 'weekly' : 'monthly',
+    priority: d.status === 'active' ? 0.9 : 0.4,
+  }))
+
+  const blogPosts = getAllPosts().map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly' as const,
+    priority: 0.6,
+  }))
 
   return [
     {
@@ -12,34 +27,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${baseUrl}/about`,
+      url: `${baseUrl}/blog`,
       lastModified: new Date(),
-      changeFrequency: 'monthly',
+      changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/divisions/writer`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/divisions/forge`,
+      url: `${baseUrl}/about`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.6,
+      priority: 0.7,
     },
-    {
-      url: `${baseUrl}/divisions/games`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/divisions/vision`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
+    ...divisionPages,
+    ...blogPosts,
   ]
 }

@@ -91,7 +91,7 @@ export default function FloatingOrbs({ seed = 7 }: FloatingOrbsProps) {
             filter: `blur(${orb.blur}px)`,
             opacity: orb.opacity,
             animation: `orb-drift-${orb.driftIndex} ${orb.duration}s ease-in-out ${orb.delay}s infinite`,
-            willChange: 'transform',
+            /* willChange removed — CSS animation promotes layer */
           }}
         />
       ))}

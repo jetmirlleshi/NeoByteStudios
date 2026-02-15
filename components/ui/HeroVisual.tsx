@@ -3,17 +3,15 @@
 import { useEffect, useRef, useCallback } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
-/**
- * HeroVisual — Animated abstract generative shape that serves as the
- * focal visual element in the Hero section. Draws a morphing polygon
- * with gradient fill that slowly rotates and breathes.
- */
 export default function HeroVisual() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const rafRef = useRef<number>(0)
+  const isVisibleRef = useRef(true)
   const prefersReducedMotion = useReducedMotion()
 
   const draw = useCallback((time: number) => {
+    if (!isVisibleRef.current) return
+
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -36,7 +34,6 @@ export default function HeroVisual() {
     const baseRadius = Math.min(w, h) * 0.35
     const t = time * 0.0003
 
-    // Draw multiple layered shapes
     for (let layer = 0; layer < 3; layer++) {
       const points = 6 + layer * 2
       const layerOffset = layer * 0.7
@@ -73,7 +70,6 @@ export default function HeroVisual() {
       ctx.fillStyle = grad
       ctx.fill()
 
-      // Stroke
       ctx.strokeStyle = layer === 0
         ? `rgba(124, 58, 237, ${0.15 - layer * 0.04})`
         : `rgba(59, 130, 246, ${0.1 - layer * 0.03})`
@@ -81,7 +77,6 @@ export default function HeroVisual() {
       ctx.stroke()
     }
 
-    // Central glow
     const glowGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, baseRadius * 0.3)
     glowGrad.addColorStop(0, 'rgba(124, 58, 237, 0.15)')
     glowGrad.addColorStop(0.5, 'rgba(6, 214, 160, 0.05)')
@@ -89,7 +84,6 @@ export default function HeroVisual() {
     ctx.fillStyle = glowGrad
     ctx.fillRect(0, 0, w, h)
 
-    // Floating particles
     const particleCount = 40
     for (let i = 0; i < particleCount; i++) {
       const seed = i * 137.508
@@ -110,8 +104,29 @@ export default function HeroVisual() {
 
   useEffect(() => {
     if (prefersReducedMotion) return
+
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting
+        if (entry.isIntersecting) {
+          rafRef.current = requestAnimationFrame(draw)
+        } else {
+          cancelAnimationFrame(rafRef.current)
+        }
+      },
+      { threshold: 0 }
+    )
+
+    observer.observe(canvas)
     rafRef.current = requestAnimationFrame(draw)
-    return () => cancelAnimationFrame(rafRef.current)
+
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(rafRef.current)
+    }
   }, [prefersReducedMotion, draw])
 
   if (prefersReducedMotion) {

@@ -3,15 +3,19 @@
 import { useCallback, useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import dynamic from "next/dynamic";
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
 
 const GridBackground = dynamic(() => import("@/components/ui/GridBackground"), {
   ssr: false,
+  loading: () => <div className="absolute inset-0" />,
 });
 const CursorGlow = dynamic(() => import("@/components/ui/CursorGlow"), {
   ssr: false,
+  loading: () => <div className="absolute inset-0" />,
 });
 const HeroVisual = dynamic(() => import("@/components/ui/HeroVisual"), {
   ssr: false,
+  loading: () => <div className="absolute inset-0" />,
 });
 import GradientText from "@/components/ui/GradientText";
 import MagneticButton from "@/components/ui/MagneticButton";
@@ -100,7 +104,9 @@ export default function Hero() {
         className="absolute inset-0 z-0"
         style={prefersReducedMotion ? undefined : { y: bgY }}
       >
-        <GridBackground />
+        <ErrorBoundary>
+          <GridBackground />
+        </ErrorBoundary>
       </motion.div>
 
       {/* Abstract generative visual — parallax layer */}
@@ -108,11 +114,15 @@ export default function Hero() {
         className="absolute inset-0 z-[2]"
         style={prefersReducedMotion ? undefined : { y: visualY }}
       >
-        <HeroVisual />
+        <ErrorBoundary>
+          <HeroVisual />
+        </ErrorBoundary>
       </motion.div>
 
       {/* Interactive cursor glow */}
-      <CursorGlow />
+      <ErrorBoundary>
+        <CursorGlow />
+      </ErrorBoundary>
 
       {/* Centred content stack */}
       <motion.div
@@ -160,6 +170,7 @@ export default function Hero() {
               </motion.span>
             )}
           </GradientText>
+          <span className="sr-only"> — AI-Powered Creative Studio for Cross-Media IP</span>
         </h1>
 
         {/* 2. Tagline — with accent color highlight */}
@@ -175,7 +186,7 @@ export default function Hero() {
           {...fadeSlideUp(2)}
           className="mt-3 max-w-xl mx-auto text-base md:text-lg text-text-muted"
         >
-          An AI-first studio creating cross-media intellectual properties.
+          One creator, AI-amplified. Building universes that span books, games, and visual media.
         </motion.p>
 
         {/* 4. CTA button — now with accent color */}
@@ -202,7 +213,7 @@ export default function Hero() {
                   group-hover:bg-bg-primary/90
                 "
               >
-                Explore Our Divisions&nbsp;&darr;
+                See What We&apos;re Building&nbsp;&darr;
 
                 <span
                   aria-hidden="true"

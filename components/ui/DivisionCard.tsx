@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { Division } from '@/lib/constants'
 import Badge from '@/components/ui/Badge'
 import DivisionIcon from '@/components/ui/DivisionIcon'
@@ -60,6 +61,30 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
         {division.description}
       </p>
 
+      {/* Progress bar + expected launch for coming-soon */}
+      {!isActive && division.developmentProgress != null && (
+        <div className="mt-4 space-y-2">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-text-muted">Development</span>
+            <span className="text-text-secondary font-medium">{division.developmentProgress}%</span>
+          </div>
+          <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
+            <div
+              className="h-full rounded-full transition-all duration-700"
+              style={{
+                width: `${division.developmentProgress}%`,
+                background: `linear-gradient(90deg, ${division.color}, ${division.color}99)`,
+              }}
+            />
+          </div>
+          {division.expectedLaunch && (
+            <p className="text-xs text-text-muted">
+              Expected: <span className="text-text-secondary">{division.expectedLaunch}</span>
+            </p>
+          )}
+        </div>
+      )}
+
       {/* Status badge */}
       <div className="mt-auto pt-4">
         <Badge status={division.status} color={division.color} />
@@ -76,12 +101,11 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
       borderTop: `1px solid ${division.color}4D`,
     }),
     ...(!isActive && {
-      filter: 'saturate(0.7) brightness(0.95)',
       '--shimmer-delay': `${shimmerIndex * 0.8}s`,
     }),
   } as React.CSSProperties
 
-  if (isActive) {
+  if (isActive && division.url) {
     return (
       <div
         className="division-border-wrap rounded-2xl p-[1px] transition-all duration-300 h-full"
@@ -91,29 +115,8 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
           '--division-color-20': `${division.color}33`,
         } as React.CSSProperties}
       >
-        <style>{`
-          .division-border-wrap {
-            background: transparent;
-          }
-          .division-border-wrap:hover {
-            background: conic-gradient(
-              from var(--border-angle),
-              var(--division-color-60) 0%,
-              transparent 30%,
-              var(--division-color-33) 50%,
-              transparent 80%
-            );
-            animation: border-rotate 3s linear infinite;
-          }
-          @media (prefers-reduced-motion: reduce) {
-            .division-border-wrap:hover {
-              background: var(--division-color-20);
-              animation: none;
-            }
-          }
-        `}</style>
         <a
-          href={division.url!}
+          href={division.url}
           target="_blank"
           rel="noopener noreferrer"
           className={`${baseClasses} cursor-pointer hover:scale-[1.02] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary`}
@@ -126,11 +129,12 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
   }
 
   return (
-    <div
-      className={`${baseClasses} card-shimmer cursor-default overflow-hidden opacity-80 hover:opacity-100`}
+    <Link
+      href={`/divisions/${division.slug}`}
+      className={`${baseClasses} card-shimmer overflow-hidden opacity-90 hover:opacity-100 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary`}
       style={cardStyle}
     >
       {cardContent}
-    </div>
+    </Link>
   )
 }
