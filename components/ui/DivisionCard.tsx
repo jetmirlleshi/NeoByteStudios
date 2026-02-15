@@ -9,7 +9,7 @@ interface DivisionCardProps {
   featured?: boolean
 }
 
-export default function DivisionCard({ division, shimmerIndex = 0, featured = false }: DivisionCardProps) {
+export default function DivisionCard({ division, shimmerIndex = 0 }: DivisionCardProps) {
   const isActive = division.status === 'active'
 
   const cardContent = (
@@ -20,60 +20,62 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
         style={{ '--flood-color': `${division.color}10` } as React.CSSProperties}
       />
 
-      {/* Division icon — SVG instead of emoji */}
+      {/* Subtle top glow line */}
       <div
-        className={`flex items-center justify-center rounded-xl transition-all duration-300 ${
-          featured ? 'h-14 w-14' : 'h-11 w-11'
-        } ${isActive ? 'group-hover:scale-110' : 'group-hover:scale-105'}`}
+        className="pointer-events-none absolute -top-px left-1/2 h-px w-1/2 -translate-x-1/2 opacity-50"
+        style={{ background: `linear-gradient(90deg, transparent, ${division.color}60, transparent)` }}
+      />
+
+      {/* Icon */}
+      <div
+        className="flex h-13 w-13 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
         style={{
-          background: `linear-gradient(135deg, ${division.color}20, ${division.color}08)`,
-          border: `1px solid ${division.color}30`,
+          background: `linear-gradient(135deg, ${division.color}22, ${division.color}08)`,
+          border: `1px solid ${division.color}35`,
+          boxShadow: `0 0 20px ${division.color}12`,
         }}
       >
-        <DivisionIcon
-          slug={division.slug}
-          color={division.color}
-          size={featured ? 28 : 22}
-        />
+        <DivisionIcon slug={division.slug} color={division.color} size={26} />
       </div>
 
-      {/* Division name */}
+      {/* Name */}
       <h3
-        className={`mt-4 font-display font-bold ${featured ? 'text-xl md:text-2xl' : 'text-lg'}`}
+        className="mt-5 font-display text-xl font-bold"
         style={{ color: division.color }}
       >
         {division.name}
       </h3>
 
       {/* Tagline */}
-      <p className={`mt-1 text-text-secondary ${featured ? 'text-base' : 'text-sm'}`}>
+      <p className="mt-1.5 text-sm text-text-secondary leading-snug">
         {division.tagline}
       </p>
 
       {/* Gradient separator */}
       <div
-        className="mt-3 h-px w-0 transition-all duration-500 group-hover:w-full"
+        className="mt-4 h-px w-0 transition-all duration-500 group-hover:w-full"
         style={{ background: `linear-gradient(to right, ${division.color}4D, transparent)` }}
       />
 
       {/* Description */}
-      <p className={`mt-3 text-text-muted ${featured ? 'text-base' : 'text-sm line-clamp-3'}`}>
+      <p className="mt-4 text-sm leading-relaxed text-text-muted line-clamp-3">
         {division.description}
       </p>
 
       {/* Progress bar + expected launch for coming-soon */}
       {!isActive && division.developmentProgress != null && (
-        <div className="mt-4 space-y-2">
+        <div className="mt-5 space-y-2">
           <div className="flex items-center justify-between text-xs">
             <span className="text-text-muted">Development</span>
-            <span className="text-text-secondary font-medium">{division.developmentProgress}%</span>
+            <span className="font-medium text-text-secondary">{division.developmentProgress}%</span>
           </div>
-          <div className="h-1.5 w-full rounded-full bg-white/5 overflow-hidden">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/5">
             <div
               className="h-full rounded-full transition-all duration-700"
               style={{
                 width: `${division.developmentProgress}%`,
                 background: `linear-gradient(90deg, ${division.color}, ${division.color}99)`,
+                boxShadow: `0 0 8px ${division.color}40`,
               }}
             />
           </div>
@@ -85,18 +87,18 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
         </div>
       )}
 
-      {/* Status badge */}
-      <div className="mt-auto pt-4">
+      {/* Badge — pushed to bottom */}
+      <div className="mt-auto pt-5">
         <Badge status={division.status} color={division.color} />
       </div>
     </>
   )
 
-  const baseClasses = `group relative flex flex-col rounded-2xl p-6 ${featured ? 'md:p-8' : ''} transition-all duration-300 h-full min-h-0 overflow-hidden glass-card`
+  const baseClasses = 'group relative flex flex-col rounded-2xl p-7 transition-all duration-300 h-full min-h-0 overflow-hidden glass-card'
 
   const cardStyle: React.CSSProperties = {
-    '--card-glow': `0 0 20px ${division.color}33, 0 0 40px ${division.color}15`,
-    borderLeft: `2px solid ${division.color}`,
+    '--card-glow': `0 0 24px ${division.color}30, 0 0 48px ${division.color}12`,
+    borderLeft: `2px solid ${division.color}60`,
     ...(isActive && {
       borderTop: `1px solid ${division.color}4D`,
     }),

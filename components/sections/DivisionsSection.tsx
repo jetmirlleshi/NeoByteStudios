@@ -13,7 +13,7 @@ export default function DivisionsSection() {
       <FloatingOrbs seed={42} />
       <div className="relative mx-auto max-w-6xl px-4">
         {/* ── Section header ──────────────────────────────────────── */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-20">
           <ScrollReveal>
             <h2 className="font-display text-3xl font-bold md:text-5xl">
               <GradientText>Our Divisions</GradientText>
@@ -28,20 +28,15 @@ export default function DivisionsSection() {
           </ScrollReveal>
         </div>
 
-        {/* ── Bento grid — Writer full-width row, 3 divisions aligned below ── */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
+        {/* ── Uniform 2x2 grid — all cards equal ── */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {DIVISIONS.map((division, index) => {
             const isActive = division.status === 'active'
             const shimmerIdx = isActive ? 0 : comingSoonIndex++
 
-            const isWriter = division.slug === 'writer'
-            const gridClass = isWriter
-              ? 'md:col-span-6'
-              : 'md:col-span-2'
-
             return (
               <ScrollReveal key={division.slug} delay={index * 0.1}>
-                <div className={gridClass + ' h-full'}>
+                <div className="h-full">
                   <TiltCard
                     enabled={isActive}
                     className="relative rounded-2xl h-full"
@@ -49,7 +44,6 @@ export default function DivisionsSection() {
                     <DivisionCard
                       division={division}
                       shimmerIndex={shimmerIdx}
-                      featured={isWriter}
                     />
                   </TiltCard>
                 </div>
