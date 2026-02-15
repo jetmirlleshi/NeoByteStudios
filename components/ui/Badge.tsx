@@ -1,4 +1,5 @@
 import type { DivisionStatus } from '@/lib/constants'
+import { COLORS } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
 interface BadgeProps {
@@ -8,7 +9,7 @@ interface BadgeProps {
 
 export default function Badge({ status, color }: BadgeProps) {
   const isActive = status === 'active'
-  const accent = color ?? (isActive ? '#22c55e' : '#7c3aed')
+  const accent = color ?? (isActive ? '#22c55e' : COLORS.brand.from)
 
   return (
     <span

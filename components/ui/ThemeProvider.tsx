@@ -28,6 +28,23 @@ export default function ThemeProvider({
     if (stored === 'light' || stored === 'dark') {
       setTheme(stored)
       document.documentElement.setAttribute('data-theme', stored)
+    } else {
+      // Detect OS preference if no stored preference
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)')
+      const osTheme: Theme = prefersDark.matches ? 'dark' : 'light'
+      setTheme(osTheme)
+      document.documentElement.setAttribute('data-theme', osTheme)
+
+      // Listen for OS theme changes
+      const handleChange = (e: MediaQueryListEvent) => {
+        const newTheme: Theme = e.matches ? 'dark' : 'light'
+        if (!localStorage.getItem('nbs-theme')) {
+          setTheme(newTheme)
+          document.documentElement.setAttribute('data-theme', newTheme)
+        }
+      }
+      prefersDark.addEventListener('change', handleChange)
+      return () => prefersDark.removeEventListener('change', handleChange)
     }
   }, [])
 

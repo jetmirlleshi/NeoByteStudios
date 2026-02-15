@@ -6,7 +6,8 @@ import DivisionIcon from '@/components/ui/DivisionIcon'
 export default function NotFound() {
   return (
     <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 text-center py-24">
-      <GradientText from="#7c3aed" to="#06d6a0" className="font-display text-6xl md:text-8xl font-bold">
+      <h1 className="sr-only">Page Not Found</h1>
+      <GradientText from="var(--brand-from)" to="var(--accent)" className="font-display text-6xl md:text-8xl font-bold" aria-hidden="true">
         404
       </GradientText>
       <p className="text-lg text-text-secondary mt-4">
@@ -15,7 +16,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="mt-8 rounded-full bg-gradient-to-r from-brand-from to-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+        className="mt-8 rounded-full bg-gradient-to-r from-brand-from to-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
       >
         Back to Home
       </Link>

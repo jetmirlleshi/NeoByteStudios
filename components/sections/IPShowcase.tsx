@@ -42,15 +42,7 @@ export default function IPShowcase() {
       className="relative min-h-screen flex items-center justify-center py-32 md:py-48"
       style={{ backgroundColor: "var(--bg-secondary)" }}
     >
-      {/* Keyframe definitions */}
-      <style>{`
-        @keyframes ip-particle-drift {
-          0%   { opacity: 0; transform: translateY(0); }
-          15%  { opacity: 1; }
-          85%  { opacity: 1; }
-          100% { opacity: 0; transform: translateY(-40px); }
-        }
-      `}</style>
+      {/* Keyframe is defined in globals.css */}
 
       {/* Top gradient separator */}
       <div
@@ -153,7 +145,6 @@ export default function IPShowcase() {
                           ? "0 0 4px 1px rgba(124,58,237,0.3)"
                           : "0 0 3px 1px rgba(255,255,255,0.15)",
                     animation: `ip-particle-drift ${p.duration}s ease-in-out ${p.delay}s infinite`,
-                    willChange: "opacity, transform",
                     opacity: 0,
                   }}
                 />
@@ -163,7 +154,7 @@ export default function IPShowcase() {
               <div className="relative z-10 flex flex-col items-center text-center">
                 <TextReveal>
                   <h2 className="font-display text-3xl font-bold md:text-5xl">
-                    <GradientText from="#7c3aed" to="#06d6a0">
+                    <GradientText from="var(--brand-from)" to="var(--accent)">
                       Our first universe is being forged.
                     </GradientText>
                   </h2>
@@ -183,6 +174,14 @@ export default function IPShowcase() {
                 <div className="mt-10">
                   <Countdown />
                 </div>
+
+                {/* CTA */}
+                <a
+                  href="/#divisions"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-brand-from to-accent transition-opacity duration-300 hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+                >
+                  Join the Waitlist&nbsp;&rarr;
+                </a>
               </div>
             </div>
           </div>

@@ -11,8 +11,8 @@ export default function ProfilePage() {
     <div className="relative mx-auto max-w-4xl px-6 py-32">
       {/* Gradient orbs */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-[#7c3aed]/10 blur-[120px]" />
-        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-[#06d6a0]/10 blur-[120px]" />
+        <div className="absolute -top-40 -left-40 h-80 w-80 rounded-full bg-brand-from/10 blur-[120px]" />
+        <div className="absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-accent/10 blur-[120px]" />
       </div>
 
       <div className="relative z-10">
@@ -32,12 +32,12 @@ export default function ProfilePage() {
               headerSubtitle: 'text-text-secondary',
               formFieldLabel: 'text-text-secondary',
               formFieldInput:
-                'bg-bg-card border-border-custom text-text-primary focus:border-[#7c3aed] focus:ring-[#7c3aed]',
+                'bg-bg-card border-border-custom text-text-primary focus:border-brand-from focus:ring-brand-from',
               formButtonPrimary:
-                'bg-gradient-to-r from-[#7c3aed] to-[#06d6a0] hover:opacity-90',
+                'bg-gradient-to-r from-brand-from to-accent hover:opacity-90',
               profileSectionTitle: 'text-text-primary',
               profileSectionContent: 'text-text-secondary',
-              profileSectionPrimaryButton: 'text-[#7c3aed] hover:text-[#06d6a0]',
+              profileSectionPrimaryButton: 'text-brand-from hover:text-accent',
             },
           }}
         />

@@ -3,8 +3,8 @@ import { cn } from '@/lib/utils'
 /**
  * Props for the GradientText component.
  * @property children  - Text or inline content to render with the gradient.
- * @property from      - Starting gradient color (hex). Defaults to brand purple (#7c3aed).
- * @property to        - Ending gradient color (hex). Defaults to brand blue (#3b82f6).
+ * @property from      - Starting gradient color. Defaults to `var(--brand-from)`.
+ * @property to        - Ending gradient color. Defaults to `var(--brand-to)`.
  * @property className - Additional Tailwind classes merged via `cn()`.
  */
 interface GradientTextProps {
@@ -25,8 +25,8 @@ interface GradientTextProps {
  */
 export default function GradientText({
   children,
-  from = '#7c3aed',
-  to = '#3b82f6',
+  from = 'var(--brand-from)',
+  to = 'var(--brand-to)',
   className,
 }: GradientTextProps) {
   return (

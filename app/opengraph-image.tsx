@@ -1,4 +1,5 @@
 import { ImageResponse } from 'next/og'
+import { COLORS } from '@/lib/constants'
 
 export const runtime = 'edge'
 
@@ -17,7 +18,7 @@ export default async function OGImage() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#0a0a0f',
+          backgroundColor: COLORS.bg.primary,
           fontFamily: 'system-ui, -apple-system, sans-serif',
         }}
       >
@@ -29,7 +30,7 @@ export default async function OGImage() {
             left: 0,
             right: 0,
             height: '4px',
-            background: 'linear-gradient(to right, #7c3aed, #3b82f6)',
+            background: `linear-gradient(to right, ${COLORS.brand.from}, ${COLORS.brand.to})`,
           }}
         />
 
@@ -38,7 +39,7 @@ export default async function OGImage() {
           style={{
             fontSize: 72,
             fontWeight: 700,
-            color: '#f5f5f5',
+            color: COLORS.text.primary,
             letterSpacing: '-0.02em',
             marginBottom: '16px',
           }}
@@ -51,7 +52,7 @@ export default async function OGImage() {
           style={{
             fontSize: 28,
             fontWeight: 400,
-            color: '#a0a0b0',
+            color: COLORS.text.secondary,
             letterSpacing: '0.05em',
           }}
         >
@@ -66,7 +67,7 @@ export default async function OGImage() {
             left: 0,
             right: 0,
             height: '4px',
-            background: 'linear-gradient(to right, #3b82f6, #7c3aed)',
+            background: `linear-gradient(to right, ${COLORS.brand.to}, ${COLORS.brand.from})`,
           }}
         />
       </div>

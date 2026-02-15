@@ -1,14 +1,8 @@
-'use client'
-
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
 import { SITE, DIVISIONS, SOCIAL_LINKS } from '@/lib/constants'
 import DivisionIcon from '@/components/ui/DivisionIcon'
 import MagneticButton from '@/components/ui/MagneticButton'
-
-const ScrollToTop = dynamic(() => import('@/components/ui/ScrollToTop'), {
-  ssr: false,
-})
+import ScrollToTopWrapper from '@/components/ui/ScrollToTopWrapper'
 
 // ── Inline SVG icons for socials ─────────────────────────────────
 function SocialIcon({ icon }: { icon: string }) {
@@ -46,7 +40,7 @@ export default function Footer() {
         className="aurora-line h-[4px] rounded-full opacity-50"
         style={{
           background:
-            'linear-gradient(90deg, transparent, #7c3aed, #06d6a0, #3b82f6, #06d6a0, #7c3aed, transparent)',
+            'linear-gradient(90deg, transparent, var(--brand-from), var(--accent), var(--brand-to), var(--accent), var(--brand-from), transparent)',
           backgroundSize: '200% 100%',
           animation: 'aurora-shift 8s ease-in-out infinite',
         }}
@@ -55,7 +49,7 @@ export default function Footer() {
       {/* ── Large centered wordmark ───────────────────────── */}
       <div className="mx-auto max-w-7xl px-6 pt-20 pb-8">
         <div className="flex flex-col items-center text-center mb-16">
-          <span className="font-display text-4xl md:text-6xl font-bold bg-gradient-to-r from-[#7c3aed] to-[#06d6a0] bg-clip-text text-transparent">
+          <span className="font-display text-4xl md:text-6xl font-bold bg-gradient-to-r from-brand-from to-accent bg-clip-text text-transparent">
             {SITE.name}
           </span>
           <p className="mt-4 text-lg text-text-secondary max-w-md">
@@ -74,6 +68,9 @@ export default function Footer() {
                   bg-gradient-to-r from-brand-from to-accent
                   transition-shadow duration-300
                   hover:shadow-[0_0_24px_4px_rgba(6,214,160,0.3)]
+                  focus-visible:outline-none focus-visible:ring-2
+                  focus-visible:ring-accent focus-visible:ring-offset-2
+                  focus-visible:ring-offset-bg-primary
                 "
               >
                 <span className="block rounded-full px-8 py-3 bg-bg-primary text-text-primary font-medium transition-colors duration-300 group-hover:bg-bg-primary/90">
@@ -159,7 +156,7 @@ export default function Footer() {
       </div>
 
       {/* Scroll to top */}
-      <ScrollToTop />
+      <ScrollToTopWrapper />
     </footer>
   )
 }

@@ -23,7 +23,10 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
-  title: `${SITE.name} — ${SITE.tagline}`,
+  title: {
+    default: `${SITE.name} — ${SITE.tagline}`,
+    template: `%s | ${SITE.name}`,
+  },
   description: SITE.description,
   icons: {
     icon: '/icon.svg',
@@ -116,7 +119,10 @@ export default function RootLayout({
                   <CustomCursor />
                 </ErrorBoundary>
                 <Navbar />
-                <main id="main-content" className="flex-1">{children}</main>
+                <main id="main-content" className="flex-1">
+                  <div aria-live="polite" aria-atomic="true" className="sr-only" id="route-announcer" />
+                  {children}
+                </main>
                 <Footer />
               </SoundProvider>
             </ErrorBoundary>

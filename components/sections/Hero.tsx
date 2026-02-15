@@ -213,7 +213,7 @@ export default function Hero() {
                   group-hover:bg-bg-primary/90
                 "
               >
-                See What We&apos;re Building&nbsp;&darr;
+                Explore Our Divisions&nbsp;&darr;
 
                 <span
                   aria-hidden="true"

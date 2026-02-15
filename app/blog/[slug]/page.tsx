@@ -26,10 +26,24 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${post.title} — ${SITE.name}`,
+    title: post.title,
     description: post.description,
     alternates: {
       canonical: `/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `/blog/${slug}`,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author],
+      tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
     },
   }
 }
@@ -50,6 +64,8 @@ export default async function BlogPostPage({
     headline: post.title,
     description: post.description,
     datePublished: post.date,
+    dateModified: post.date,
+    keywords: post.tags?.join(', '),
     author: {
       '@type': 'Organization',
       name: post.author,
@@ -142,8 +158,28 @@ export default async function BlogPostPage({
           />
         </ScrollReveal>
 
-        {/* ── Navigation ─────────────────────────────────────── */}
+        {/* ── CTA ───────────────────────────────────────────── */}
         <ScrollReveal delay={0.3}>
+          <div className="mt-16 rounded-2xl border border-border-custom bg-bg-secondary/40 p-8 text-center backdrop-blur-sm">
+            <p className="font-display text-lg font-semibold text-text-primary">
+              Ready to start your creative journey?
+            </p>
+            <p className="mt-2 text-sm text-text-secondary">
+              Try NeoByteWriter — the AI-powered writing tool built for fantasy authors.
+            </p>
+            <a
+              href="https://neobytewriter.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex rounded-full bg-gradient-to-r from-brand-from to-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+            >
+              Try NeoByteWriter&nbsp;&rarr;
+            </a>
+          </div>
+        </ScrollReveal>
+
+        {/* ── Navigation ─────────────────────────────────────── */}
+        <ScrollReveal delay={0.35}>
           <div className="mt-12 flex flex-wrap gap-6">
             <Link
               href="/blog"

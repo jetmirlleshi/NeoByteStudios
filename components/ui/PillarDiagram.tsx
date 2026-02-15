@@ -80,7 +80,7 @@ export default function PillarDiagram() {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-md min-h-[320px]">
       {/* Ambient glow behind diagram */}
-      <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-[#7c3aed]/5 to-[#06d6a0]/5 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-brand-from/5 to-accent/5 blur-3xl" />
 
       {/* SVG connecting lines */}
       <svg
@@ -98,7 +98,7 @@ export default function PillarDiagram() {
               x2={LINE_ENDPOINTS[division.slug].x > 100 ? "100%" : "0%"}
               y2={LINE_ENDPOINTS[division.slug].y > 100 ? "100%" : "0%"}
             >
-              <stop offset="0%" stopColor="#7c3aed" stopOpacity="0.6" />
+              <stop offset="0%" stopColor="var(--brand-from)" stopOpacity="0.6" />
               <stop offset="100%" stopColor={division.color} stopOpacity="0.8" />
             </linearGradient>
           ))}

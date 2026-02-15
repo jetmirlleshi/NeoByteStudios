@@ -39,6 +39,26 @@
   --font-sans: var(--font-geist-sans), "Inter", system-ui, sans-serif;
   --font-mono: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, monospace;
   --font-display: var(--font-display), "Space Grotesk", system-ui, sans-serif;
+
+  /* Spacing tokens */
+  --spacing-section: 6rem;
+  --spacing-section-sm: 4rem;
+
+  /* Radius tokens */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  /* Shadow tokens */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 10px 30px -5px rgba(0, 0, 0, 0.4);
+  --shadow-glow-brand: 0 0 24px 4px rgba(124, 58, 237, 0.3);
+  --shadow-glow-accent: 0 0 24px 4px rgba(6, 214, 160, 0.3);
+
+  /* Duration tokens */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
 }
 
 /* ─── Base Styles ───────────────────────────────────────────── */
@@ -357,10 +377,10 @@ body::after {
 /* ─── Logo Micro-Glitch on Hover ───────────────────────────── */
 @keyframes logo-glitch {
   0% { transform: translate(0); text-shadow: none; }
-  20% { transform: translate(-2px, 1px); text-shadow: 2px 0 #7c3aed, -2px 0 #3b82f6; }
-  40% { transform: translate(2px, -1px); text-shadow: -2px 0 #7c3aed, 2px 0 #3b82f6; }
-  60% { transform: translate(-1px, 0); text-shadow: 1px 0 #7c3aed, -1px 0 #3b82f6; }
-  80% { transform: translate(1px, 1px); text-shadow: -1px 0 #7c3aed, 1px 0 #3b82f6; }
+  20% { transform: translate(-2px, 1px); text-shadow: 2px 0 var(--brand-from), -2px 0 var(--brand-to); }
+  40% { transform: translate(2px, -1px); text-shadow: -2px 0 var(--brand-from), 2px 0 var(--brand-to); }
+  60% { transform: translate(-1px, 0); text-shadow: 1px 0 var(--brand-from), -1px 0 var(--brand-to); }
+  80% { transform: translate(1px, 1px); text-shadow: -1px 0 var(--brand-from), 1px 0 var(--brand-to); }
   100% { transform: translate(0); text-shadow: none; }
 }
 
@@ -380,6 +400,14 @@ body::after {
 @keyframes bounce-subtle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
+}
+
+/* ─── IP Showcase: Particle Drift ─────────────────────────── */
+@keyframes ip-particle-drift {
+  0%   { opacity: 0; transform: translateY(0); }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-40px); }
 }
 
 /* ─── Countdown digit flip ─────────────────────────────────── */
@@ -651,5 +679,46 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   .animate-page-enter {
     animation: none;
+  }
+}
+
+/* ─── Print Styles ─────────────────────────────────────────── */
+@media print {
+  body::after,
+  .custom-cursor-active .pointer-events-none.fixed,
+  nav,
+  .scroll-to-top,
+  .aurora-line {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  .glass-card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ─── Forced Colors (High Contrast Mode) ──────────────────── */
+@media (forced-colors: active) {
+  .glass-card {
+    border: 1px solid CanvasText;
+  }
+
+  .bg-gradient-to-r {
+    background: Canvas;
+    color: CanvasText;
   }
 }

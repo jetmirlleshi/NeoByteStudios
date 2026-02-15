@@ -31,6 +31,17 @@ export async function generateMetadata({
     alternates: {
       canonical: `/divisions/${slug}`,
     },
+    openGraph: {
+      title: division.metaTitle,
+      description: division.metaDescription,
+      url: `/divisions/${slug}`,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: division.metaTitle,
+      description: division.metaDescription,
+    },
   }
 }
 

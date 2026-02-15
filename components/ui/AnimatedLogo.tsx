@@ -49,8 +49,8 @@ export default function AnimatedLogo({
           x2="100%"
           y2="100%"
         >
-          <stop offset="0%" stopColor="#7c3aed" />
-          <stop offset="100%" stopColor="#06d6a0" />
+          <stop offset="0%" stopColor="var(--brand-from)" />
+          <stop offset="100%" stopColor="var(--accent)" />
         </linearGradient>
         <filter id="anim-logo-glow">
           <feGaussianBlur stdDeviation="2" result="blur" />

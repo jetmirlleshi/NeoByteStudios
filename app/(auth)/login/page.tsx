@@ -23,11 +23,11 @@ export default function LoginPage() {
             dividerText: 'text-text-secondary',
             formFieldLabel: 'text-text-secondary',
             formFieldInput:
-              'bg-bg-card border-border-custom text-text-primary focus:border-[#7c3aed] focus:ring-[#7c3aed]',
+              'bg-bg-card border-border-custom text-text-primary focus:border-brand-from focus:ring-brand-from',
             formButtonPrimary:
-              'bg-gradient-to-r from-[#7c3aed] to-[#06d6a0] hover:opacity-90',
-            footerActionLink: 'text-[#7c3aed] hover:text-[#06d6a0]',
-            identityPreviewEditButton: 'text-[#7c3aed]',
+              'bg-gradient-to-r from-brand-from to-accent hover:opacity-90',
+            footerActionLink: 'text-brand-from hover:text-accent',
+            identityPreviewEditButton: 'text-brand-from',
           },
         }}
         signUpUrl="/register"

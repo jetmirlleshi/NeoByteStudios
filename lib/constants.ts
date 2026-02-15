@@ -10,7 +10,7 @@ export const COLORS = {
     games: '#10b981',
     vision: '#f59e0b',
   },
-  text: { primary: '#f5f5f5', secondary: '#a0a0b0', muted: '#6b7280' },
+  text: { primary: '#f5f5f5', secondary: '#a0a0b0', muted: '#8b92a0' },
   border: '#1e1e2e',
 } as const
 

@@ -12,7 +12,7 @@ export default function VisionSection() {
         <div className="text-center mb-6">
           <ScrollReveal>
             <h2 className="font-display text-3xl font-bold md:text-5xl lg:text-6xl tracking-tight">
-              <GradientText from="#7c3aed" to="#06d6a0">
+              <GradientText from="var(--brand-from)" to="var(--accent)">
                 One Creator. Four Pillars. Infinite Worlds.
               </GradientText>
             </h2>
@@ -38,7 +38,7 @@ export default function VisionSection() {
                   className="absolute left-0 top-0 bottom-0 w-[2px]"
                   style={{
                     background:
-                      "linear-gradient(to bottom, #7c3aed, #06d6a0)",
+                      "linear-gradient(to bottom, var(--brand-from), var(--accent))",
                   }}
                 />
                 <p className="text-xl font-light text-text-secondary italic leading-relaxed">
@@ -53,7 +53,7 @@ export default function VisionSection() {
                   <div className="mb-2 flex items-center gap-2">
                     <span
                       className="inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: "#7c3aed" }}
+                      style={{ backgroundColor: "var(--brand-from)" }}
                     />
                     <span className="text-sm font-semibold text-text-primary">
                       The Vision
@@ -71,7 +71,7 @@ export default function VisionSection() {
                   <div className="mb-2 flex items-center gap-2">
                     <span
                       className="inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: "#3b82f6" }}
+                      style={{ backgroundColor: "var(--brand-to)" }}
                     />
                     <span className="text-sm font-semibold text-text-primary">
                       Cross-Media DNA
@@ -88,7 +88,7 @@ export default function VisionSection() {
                   <div className="mb-2 flex items-center gap-2">
                     <span
                       className="inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: "#06d6a0" }}
+                      style={{ backgroundColor: "var(--accent)" }}
                     />
                     <span className="text-sm font-semibold text-text-primary">
                       AI-Powered Scale

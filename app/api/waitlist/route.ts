@@ -6,7 +6,9 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { email, division } = body
 
-    if (!email || typeof email !== 'string' || !email.includes('@')) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const trimmedEmail = typeof email === 'string' ? email.trim() : ''
+    if (!email || typeof email !== 'string' || !emailRegex.test(trimmedEmail)) {
       return NextResponse.json(
         { error: 'Valid email is required' },
         { status: 400 },
@@ -32,7 +34,7 @@ export async function POST(request: Request) {
 
     await sql`
       INSERT INTO waitlist (email, division)
-      VALUES (${email.toLowerCase().trim()}, ${division})
+      VALUES (${trimmedEmail.toLowerCase()}, ${division})
       ON CONFLICT (email, division) DO NOTHING
     `
 

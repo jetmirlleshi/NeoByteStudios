@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useCallback, useState } from 'react'
+import { useRef, useCallback, useState, type MouseEvent as ReactMouseEvent } from 'react'
 import { useReducedMotion } from 'framer-motion'
 
 /**
@@ -31,13 +31,9 @@ export default function TiltCard({
   enabled = true,
 }: TiltCardProps) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const reflectionRef = useRef<HTMLDivElement>(null)
   const rafRef = useRef<number | null>(null)
   const prefersReducedMotion = useReducedMotion()
-
-  // Track the light-reflection position for the radial gradient overlay
-  const [reflection, setReflection] = useState<{ x: number; y: number } | null>(
-    null,
-  )
 
   // Whether we're currently hovering (controls the smooth transition class)
   const [hovering, setHovering] = useState(false)
@@ -77,11 +73,13 @@ export default function TiltCard({
 
         el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
 
-        // Light reflection position (percentage-based for the gradient)
-        setReflection({
-          x: ((e.clientX - rect.left) / rect.width) * 100,
-          y: ((e.clientY - rect.top) / rect.height) * 100,
-        })
+        // Light reflection position — direct DOM update to avoid React re-renders
+        if (reflectionRef.current) {
+          const rx = ((e.clientX - rect.left) / rect.width) * 100
+          const ry = ((e.clientY - rect.top) / rect.height) * 100
+          reflectionRef.current.style.background = `radial-gradient(circle at ${rx}% ${ry}%, rgba(255,255,255,0.05) 0%, transparent 60%)`
+          reflectionRef.current.style.opacity = '1'
+        }
       })
     },
     [isDisabled],
@@ -101,7 +99,9 @@ export default function TiltCard({
       el.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg)'
     }
 
-    setReflection(null)
+    if (reflectionRef.current) {
+      reflectionRef.current.style.opacity = '0'
+    }
     setHovering(false)
   }, [isDisabled])
 
@@ -132,18 +132,18 @@ export default function TiltCard({
       {children}
 
       {/* ── Light reflection overlay ──────────────────────────── */}
-      {reflection && (
-        <div
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: 'inherit',
-            pointerEvents: 'none',
-            background: `radial-gradient(circle at ${reflection.x}% ${reflection.y}%, rgba(255,255,255,0.05) 0%, transparent 60%)`,
-          }}
-        />
-      )}
+      <div
+        ref={reflectionRef}
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: 'inherit',
+          pointerEvents: 'none',
+          opacity: 0,
+          transition: 'opacity 0.15s ease-out',
+        }}
+      />
     </div>
   )
 }

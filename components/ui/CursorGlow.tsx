@@ -21,6 +21,7 @@ export default function CursorGlow() {
   const mousePos = useRef({ x: 0, y: 0 });
   const currentPos = useRef({ x: 0, y: 0 });
   const rafId = useRef<number>(0);
+  const cachedRect = useRef<DOMRect | null>(null);
 
   // Interpolation factor — lower = more lag = more organic
   const LERP_FACTOR = 0.08;
@@ -56,13 +57,15 @@ export default function CursorGlow() {
     if (!section) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = section.getBoundingClientRect();
+      const rect = cachedRect.current;
+      if (!rect) return;
       mousePos.current.x = e.clientX - rect.left;
       mousePos.current.y = e.clientY - rect.top;
     };
 
     const handleMouseEnter = (e: MouseEvent) => {
-      const rect = section.getBoundingClientRect();
+      cachedRect.current = section.getBoundingClientRect();
+      const rect = cachedRect.current;
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       // Snap current position to avoid slow drift from corner on first enter
@@ -77,7 +80,7 @@ export default function CursorGlow() {
       cancelAnimationFrame(rafId.current);
     };
 
-    section.addEventListener("mousemove", handleMouseMove);
+    section.addEventListener("mousemove", handleMouseMove, { passive: true });
     section.addEventListener("mouseenter", handleMouseEnter);
     section.addEventListener("mouseleave", handleMouseLeave);
 

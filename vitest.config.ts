@@ -9,6 +9,12 @@ export default defineConfig({
     globals: true,
     setupFiles: './__tests__/setup.ts',
     include: ['__tests__/**/*.test.{ts,tsx}'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      include: ['components/**', 'lib/**', 'app/api/**'],
+      exclude: ['**/*.test.{ts,tsx}', '**/__tests__/**'],
+    },
   },
   resolve: {
     alias: {

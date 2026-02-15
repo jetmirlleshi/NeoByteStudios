@@ -5,17 +5,17 @@ const PROOF_POINTS = [
   {
     value: '1',
     label: 'Creator',
-    detail: 'AI-amplified solo studio',
+    detail: 'One person building at studio scale with AI',
   },
   {
     value: '4',
     label: 'Divisions',
-    detail: 'Writer, Forge, Games, Vision',
+    detail: 'Writer, Forge, Games, Vision — every creative medium covered',
   },
   {
     value: '\u221E',
     label: 'Worlds',
-    detail: 'Cross-media from day zero',
+    detail: 'Universes designed for cross-media from day one',
   },
 ]
 
@@ -110,7 +110,7 @@ export default function SocialProof() {
         <ScrollReveal delay={0.35}>
           <div className="mt-12 flex flex-col items-center">
             <p className="text-xs uppercase tracking-widest text-text-muted mb-4">
-              Built with modern technology
+              Powered by modern technology
             </p>
             <div className="flex flex-wrap justify-center gap-6">
               {TECH_STACK.map((tech) => (

@@ -53,27 +53,41 @@ export default function WaitlistForm({ division, color }: WaitlistFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
-      <input
-        type="email"
-        required
-        placeholder="your@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="flex-1 rounded-lg px-4 py-2.5 text-sm bg-white/5 border border-border-custom text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-primary transition-shadow duration-200"
-        style={{ '--tw-ring-color': color } as React.CSSProperties}
-        disabled={status === 'loading'}
-      />
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className="rounded-lg px-5 py-2.5 text-sm font-medium text-white transition-opacity duration-200 hover:opacity-90 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
-        style={{ background: color }}
-      >
-        {status === 'loading' ? '...' : 'Join'}
-      </button>
+    <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-2">
+      <div className="flex gap-2">
+        <input
+          type="email"
+          required
+          placeholder="your@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          aria-invalid={status === 'error' ? 'true' : undefined}
+          aria-describedby={status === 'error' ? 'waitlist-error' : undefined}
+          className={`flex-1 rounded-lg px-4 py-2.5 text-sm bg-white/5 border text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-primary transition-shadow duration-200 ${
+            status === 'error' ? 'border-red-400' : 'border-border-custom'
+          }`}
+          style={{ '--tw-ring-color': color } as React.CSSProperties}
+          disabled={status === 'loading'}
+        />
+        <button
+          type="submit"
+          disabled={status === 'loading'}
+          className="rounded-lg px-5 py-2.5 text-sm font-medium text-white transition-opacity duration-200 hover:opacity-90 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+          style={{ background: color }}
+        >
+          {status === 'loading' ? (
+            <span className="inline-flex items-center gap-1">
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              <span className="sr-only">Submitting...</span>
+            </span>
+          ) : 'Join the Waitlist'}
+        </button>
+      </div>
       {status === 'error' && (
-        <p className="absolute mt-12 text-xs text-red-400">{message}</p>
+        <p id="waitlist-error" role="alert" className="text-xs text-red-400">{message}</p>
       )}
     </form>
   )

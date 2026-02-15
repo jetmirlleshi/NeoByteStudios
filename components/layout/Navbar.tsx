@@ -192,6 +192,7 @@ export default function Navbar() {
   return (
     <>
       <nav
+        aria-label="Main navigation"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
             ? 'bg-bg-primary/80 backdrop-blur-lg border-b border-border-custom'
@@ -205,7 +206,7 @@ export default function Navbar() {
             className="flex items-center gap-2.5 select-none rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
           >
             <AnimatedLogo size={32} />
-            <span className={`font-display text-xl font-bold tracking-tight bg-gradient-to-r from-[#7c3aed] to-[#06d6a0] bg-clip-text text-transparent motion-safe:hover:animate-[logo-glitch_0.3s_ease-in-out] ${
+            <span className={`font-display text-xl font-bold tracking-tight bg-gradient-to-r from-brand-from to-accent bg-clip-text text-transparent motion-safe:hover:animate-[logo-glitch_0.3s_ease-in-out] ${
               !scrolled ? 'motion-safe:animate-[logo-breathe_4s_ease-in-out_infinite]' : ''
             }`}>
               {SITE.name}

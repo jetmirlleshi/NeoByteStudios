@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const divisionPages: MetadataRoute.Sitemap = DIVISIONS.map((d) => ({
     url: `${baseUrl}/divisions/${d.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date('2025-06-01'),
     changeFrequency: d.status === 'active' ? 'weekly' : 'monthly',
     priority: d.status === 'active' ? 0.9 : 0.4,
   }))
@@ -22,19 +22,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: new Date('2025-06-01'),
       changeFrequency: 'weekly',
       priority: 1,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: blogPosts.length > 0 ? new Date(blogPosts[0].lastModified as Date) : new Date('2025-06-01'),
       changeFrequency: 'weekly',
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      lastModified: new Date('2025-06-01'),
       changeFrequency: 'monthly',
       priority: 0.7,
     },

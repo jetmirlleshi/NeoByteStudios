@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import Hero from '@/components/sections/Hero'
 import SocialProof from '@/components/sections/SocialProof'
 import DivisionsSection from '@/components/sections/DivisionsSection'
@@ -8,24 +9,32 @@ import SectionDivider from '@/components/ui/SectionDivider'
 export default function Home() {
   return (
     <>
-      <div className="snap-section">
-        <Hero />
-      </div>
-      <div className="snap-section">
+      <section className="snap-section" aria-label="Hero">
+        <Suspense>
+          <Hero />
+        </Suspense>
+      </section>
+      <section className="snap-section" aria-label="Social proof">
         <SocialProof />
-      </div>
+      </section>
       <SectionDivider variant="wave" />
-      <div className="snap-section">
-        <DivisionsSection />
-      </div>
+      <section className="snap-section" aria-label="Divisions">
+        <Suspense>
+          <DivisionsSection />
+        </Suspense>
+      </section>
       <SectionDivider variant="gradient" />
-      <div className="snap-section">
-        <VisionSection />
-      </div>
+      <section className="snap-section" aria-label="Vision">
+        <Suspense>
+          <VisionSection />
+        </Suspense>
+      </section>
       <SectionDivider variant="wave" flip />
-      <div className="snap-section">
-        <IPShowcase />
-      </div>
+      <section className="snap-section" aria-label="IP Showcase">
+        <Suspense>
+          <IPShowcase />
+        </Suspense>
+      </section>
     </>
   )
 }

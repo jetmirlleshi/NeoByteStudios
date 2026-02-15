@@ -48,6 +48,7 @@ export default function ScrambleText({
 
     const chars = text.split('')
     const startTime = performance.now()
+    let rafId: number
 
     function tick() {
       const elapsed = performance.now() - startTime
@@ -55,15 +56,9 @@ export default function ScrambleText({
 
       const result = chars
         .map((char, i) => {
-          // Preserve spaces — don't scramble them
           if (char === ' ') return ' '
-
-          // Each character settles at a different time based on its position.
-          // Earlier characters finish first, creating a left-to-right decode.
           const charProgress = (progress - (i / chars.length) * 0.5) / 0.5
           if (charProgress >= 1) return char
-
-          // Pick a random character from the charset
           return charset[Math.floor(Math.random() * charset.length)]
         })
         .join('')
@@ -71,18 +66,19 @@ export default function ScrambleText({
       setDisplayText(result)
 
       if (progress < 1) {
-        requestAnimationFrame(tick)
+        rafId = requestAnimationFrame(tick)
       }
     }
 
-    // Honour the delay prop before starting the animation
     const delayMs = delay * 1000
     const timerId = window.setTimeout(() => {
-      requestAnimationFrame(tick)
+      rafId = requestAnimationFrame(tick)
     }, delayMs)
 
-    // Return cleanup in case component unmounts during the delay
-    return () => window.clearTimeout(timerId)
+    return () => {
+      window.clearTimeout(timerId)
+      if (rafId) cancelAnimationFrame(rafId)
+    }
   }, [text, delay, charset, duration])
 
   useEffect(() => {
