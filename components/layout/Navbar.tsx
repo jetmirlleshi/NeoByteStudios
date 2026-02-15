@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { NAVBAR_HEIGHT, NAVIGATION_LINKS, SITE, type NavLink } from '@/lib/constants'
 import AnimatedLogo from '@/components/ui/AnimatedLogo'
 import ThemeToggle from '@/components/ui/ThemeToggle'
@@ -224,10 +225,28 @@ export default function Navbar() {
             ))}
           </ul>
 
-          {/* Desktop toggles */}
-          <div className="hidden items-center gap-1 md:flex ml-2">
+          {/* Desktop toggles + auth */}
+          <div className="hidden items-center gap-2 md:flex ml-2">
             <ThemeToggle />
             <SoundToggle />
+            <SignedIn>
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: 'h-8 w-8',
+                  },
+                }}
+              />
+            </SignedIn>
+            <SignedOut>
+              <Link
+                href="/login"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-text-secondary transition-colors hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+              >
+                Sign In
+              </Link>
+            </SignedOut>
           </div>
 
           {/* Mobile hamburger */}
@@ -305,6 +324,16 @@ export default function Navbar() {
               <div className="flex items-center gap-2 px-6 mb-4">
                 <ThemeToggle />
                 <SoundToggle />
+                <SignedIn>
+                  <UserButton
+                    afterSignOutUrl="/"
+                    appearance={{
+                      elements: {
+                        avatarBox: 'h-8 w-8',
+                      },
+                    }}
+                  />
+                </SignedIn>
               </div>
 
               <ul className="flex flex-col gap-2 px-6">
@@ -319,6 +348,18 @@ export default function Navbar() {
                   </li>
                 ))}
               </ul>
+
+              <SignedOut>
+                <div className="px-6 mt-4">
+                  <Link
+                    href="/login"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-center rounded-lg bg-gradient-to-r from-brand-from to-brand-to px-4 py-3 text-center text-sm font-semibold text-white transition-opacity hover:opacity-90"
+                  >
+                    Sign In
+                  </Link>
+                </div>
+              </SignedOut>
             </motion.div>
           </>
         )}
