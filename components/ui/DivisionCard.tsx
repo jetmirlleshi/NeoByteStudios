@@ -57,7 +57,7 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
       />
 
       {/* Description */}
-      <p className={`mt-3 text-text-muted ${featured ? 'text-base' : 'text-sm'}`}>
+      <p className={`mt-3 text-text-muted ${featured ? 'text-base' : 'text-sm line-clamp-3'}`}>
         {division.description}
       </p>
 
@@ -92,7 +92,7 @@ export default function DivisionCard({ division, shimmerIndex = 0, featured = fa
     </>
   )
 
-  const baseClasses = `group relative flex flex-col rounded-2xl p-6 ${featured ? 'md:p-8' : ''} transition-all duration-300 h-full glass-card`
+  const baseClasses = `group relative flex flex-col rounded-2xl p-6 ${featured ? 'md:p-8' : ''} transition-all duration-300 h-full min-h-0 overflow-hidden glass-card`
 
   const cardStyle: React.CSSProperties = {
     '--card-glow': `0 0 20px ${division.color}33, 0 0 40px ${division.color}15`,

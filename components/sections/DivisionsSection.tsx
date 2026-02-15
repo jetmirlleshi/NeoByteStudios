@@ -28,16 +28,15 @@ export default function DivisionsSection() {
           </ScrollReveal>
         </div>
 
-        {/* ── Bento grid layout — Writer (active) gets featured spot ── */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-6 md:grid-rows-2">
+        {/* ── Bento grid — Writer full-width row, 3 divisions aligned below ── */}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-6">
           {DIVISIONS.map((division, index) => {
             const isActive = division.status === 'active'
             const shimmerIdx = isActive ? 0 : comingSoonIndex++
 
-            // Writer (active) spans 4 cols, 2 rows — featured card
             const isWriter = division.slug === 'writer'
             const gridClass = isWriter
-              ? 'md:col-span-4 md:row-span-2'
+              ? 'md:col-span-6'
               : 'md:col-span-2'
 
             return (
