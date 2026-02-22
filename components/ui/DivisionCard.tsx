@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import type { Division } from '@/lib/constants'
-import Badge from '@/components/ui/Badge'
+import Badge from '@/components/ui/DivisionBadge'
 import DivisionIcon from '@/components/ui/DivisionIcon'
 
 interface DivisionCardProps {

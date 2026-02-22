@@ -8,6 +8,8 @@ import ThemeProvider from '@/components/ui/ThemeProvider'
 import SoundProvider from '@/components/ui/SoundProvider'
 import CustomCursor from '@/components/ui/CustomCursor'
 import ErrorBoundary from '@/components/ui/ErrorBoundary'
+import { Toaster } from '@/components/ui/sonner'
+import { SmartNotifications } from '@/components/ui/SmartNotifications'
 import { SITE, SOCIAL_LINKS } from '@/lib/constants'
 
 const geistSans = Geist({
@@ -124,6 +126,8 @@ export default function RootLayout({
                   {children}
                 </main>
                 <Footer />
+                <Toaster />
+                <SmartNotifications />
               </SoundProvider>
             </ErrorBoundary>
           </ThemeProvider>

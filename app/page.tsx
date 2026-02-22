@@ -1,38 +1,54 @@
 import { Suspense } from 'react'
-import Hero from '@/components/sections/Hero'
+import VideoHero from '@/components/sections/VideoHero'
+import Stats from '@/components/sections/Stats'
 import SocialProof from '@/components/sections/SocialProof'
-import DivisionsSection from '@/components/sections/DivisionsSection'
+import Roadmap from '@/components/sections/Roadmap'
 import VisionSection from '@/components/sections/VisionSection'
-import IPShowcase from '@/components/sections/IPShowcase'
-import SectionDivider from '@/components/ui/SectionDivider'
+import ReferralProgram from '@/components/sections/ReferralProgram'
+import Countdown from '@/components/sections/Countdown'
+import NewsletterArchive from '@/components/sections/NewsletterArchive'
+import Changelog from '@/components/sections/Changelog'
 
 export default function Home() {
   return (
     <>
       <section className="snap-section" aria-label="Hero">
         <Suspense>
-          <Hero />
+          <VideoHero />
         </Suspense>
+      </section>
+      <section className="snap-section" aria-label="Stats">
+        <Stats />
       </section>
       <section className="snap-section" aria-label="Social proof">
         <SocialProof />
       </section>
-      <SectionDivider variant="wave" />
-      <section className="snap-section" aria-label="Divisions">
+      <section className="snap-section" aria-label="Roadmap">
         <Suspense>
-          <DivisionsSection />
+          <Roadmap />
         </Suspense>
       </section>
-      <SectionDivider variant="gradient" />
       <section className="snap-section" aria-label="Vision">
         <Suspense>
           <VisionSection />
         </Suspense>
       </section>
-      <SectionDivider variant="wave" flip />
-      <section className="snap-section" aria-label="IP Showcase">
+<section className="snap-section" aria-label="Referral Program">
         <Suspense>
-          <IPShowcase />
+          <ReferralProgram />
+        </Suspense>
+      </section>
+      <section className="snap-section" aria-label="Countdown">
+        <Countdown />
+      </section>
+      <section className="snap-section" aria-label="Newsletter">
+        <Suspense>
+          <NewsletterArchive />
+        </Suspense>
+      </section>
+      <section className="snap-section" aria-label="Changelog">
+        <Suspense>
+          <Changelog />
         </Suspense>
       </section>
     </>

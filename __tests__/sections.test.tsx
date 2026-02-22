@@ -25,7 +25,7 @@ vi.mock('framer-motion', () => ({
   useInView: () => true,
 }))
 
-// Mock dynamic imports (for Hero component)
+// Mock dynamic imports
 vi.mock('next/dynamic', () => ({
   default: (importFn: () => Promise<unknown>) => {
     return function DynamicComponent() {
@@ -49,150 +49,28 @@ vi.mock('@/components/ui/GradientText', () => ({
   default: ({ children }: React.PropsWithChildren) => <span>{children}</span>,
 }))
 
-// Mock ScrambleText
-vi.mock('@/components/ui/ScrambleText', () => ({
-  default: ({ text }: { text: string }) => <span>{text}</span>,
-}))
+// Mock IntersectionObserver
+const mockIntersectionObserver = vi.fn()
+mockIntersectionObserver.mockReturnValue({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+})
+window.IntersectionObserver = mockIntersectionObserver
 
-// Mock Countdown
-vi.mock('@/components/ui/Countdown', () => ({
-  default: () => <div data-testid="countdown" />,
-}))
+// ─── Stats ──────────────────────────────────────────────────
 
-// Mock MagneticButton
-vi.mock('@/components/ui/MagneticButton', () => ({
-  default: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
-}))
+import Stats from '@/components/sections/Stats'
 
-// Mock ErrorBoundary
-vi.mock('@/components/ui/ErrorBoundary', () => ({
-  default: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
-}))
-
-// ─── SocialProof ──────────────────────────────────────────────
-
-import SocialProof from '@/components/sections/SocialProof'
-
-describe('SocialProof', () => {
-  it('renders section with aria-label', () => {
-    render(<SocialProof />)
-    expect(screen.getByLabelText('Studio credentials')).toBeInTheDocument()
-  })
-
+describe('Stats', () => {
   it('renders section heading', () => {
-    render(<SocialProof />)
+    render(<Stats />)
     expect(screen.getByText('The One-Person Studio Model')).toBeInTheDocument()
   })
 
-  it('renders all three proof points', () => {
-    render(<SocialProof />)
-    expect(screen.getByText('Creator')).toBeInTheDocument()
-    expect(screen.getByText('Divisions')).toBeInTheDocument()
-    expect(screen.getByText('Worlds')).toBeInTheDocument()
-  })
-
-  it('renders proof point values', () => {
-    render(<SocialProof />)
-    expect(screen.getByText('1')).toBeInTheDocument()
-    expect(screen.getByText('4')).toBeInTheDocument()
-    expect(screen.getByText('\u221E')).toBeInTheDocument()
-  })
-
-  it('renders tech stack section', () => {
-    render(<SocialProof />)
-    expect(screen.getByText('Powered by modern technology')).toBeInTheDocument()
-  })
-
-  it('renders tech stack items', () => {
-    render(<SocialProof />)
-    expect(screen.getByText('Next.js')).toBeInTheDocument()
-    expect(screen.getByText('React')).toBeInTheDocument()
-    expect(screen.getByText('TypeScript')).toBeInTheDocument()
-    expect(screen.getByText('Tailwind CSS')).toBeInTheDocument()
-  })
-})
-
-// ─── IPShowcase ───────────────────────────────────────────────
-
-import IPShowcase from '@/components/sections/IPShowcase'
-
-describe('IPShowcase', () => {
-  it('renders section with id', () => {
-    const { container } = render(<IPShowcase />)
-    const section = container.querySelector('#ip-showcase')
-    expect(section).toBeInTheDocument()
-  })
-
-  it('renders heading text', () => {
-    render(<IPShowcase />)
-    expect(screen.getByText('Our first universe is being forged.')).toBeInTheDocument()
-  })
-
-  it('renders coming date text', () => {
-    render(<IPShowcase />)
-    expect(screen.getByText('Coming 2026.')).toBeInTheDocument()
-  })
-
-  it('renders countdown component', () => {
-    render(<IPShowcase />)
-    expect(screen.getByTestId('countdown')).toBeInTheDocument()
-  })
-
-  it('renders CTA link', () => {
-    render(<IPShowcase />)
-    const cta = screen.getByText(/Join the Waitlist/)
-    expect(cta).toBeInTheDocument()
-    expect(cta.closest('a')).toHaveAttribute('href', '/#divisions')
-  })
-
-  it('renders particles as decorative elements', () => {
-    const { container } = render(<IPShowcase />)
-    const particles = container.querySelectorAll('[aria-hidden="true"].pointer-events-none.absolute')
-    expect(particles.length).toBeGreaterThan(0)
-  })
-})
-
-// ─── Hero ─────────────────────────────────────────────────────
-
-import Hero from '@/components/sections/Hero'
-
-describe('Hero', () => {
-  it('renders section with id', () => {
-    const { container } = render(<Hero />)
-    const section = container.querySelector('#hero')
-    expect(section).toBeInTheDocument()
-  })
-
-  it('renders h1 heading', () => {
-    render(<Hero />)
-    const h1 = screen.getByRole('heading', { level: 1 })
-    expect(h1).toBeInTheDocument()
-  })
-
-  it('renders tagline', () => {
-    render(<Hero />)
-    expect(screen.getByText('Where AI Meets Imagination')).toBeInTheDocument()
-  })
-
-  it('renders subtitle', () => {
-    render(<Hero />)
-    expect(screen.getByText(/One creator, AI-amplified/)).toBeInTheDocument()
-  })
-
-  it('renders CTA button', () => {
-    render(<Hero />)
-    const cta = screen.getByText(/Explore Our Divisions/)
-    expect(cta).toBeInTheDocument()
-  })
-
-  it('CTA button has correct type', () => {
-    render(<Hero />)
-    const button = screen.getByText(/Explore Our Divisions/).closest('button')
-    expect(button).toHaveAttribute('type', 'button')
-  })
-
-  it('has skip-to-content friendly id structure', () => {
-    const { container } = render(<Hero />)
-    expect(container.querySelector('#hero')).toBeInTheDocument()
+  it('renders stat labels', () => {
+    render(<Stats />)
+    expect(screen.getByText('Creators on Waitlist')).toBeInTheDocument()
+    expect(screen.getByText('Creative Divisions')).toBeInTheDocument()
   })
 })

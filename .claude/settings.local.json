@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build:*)",
+      "Bash(for url in \"/\" \"/about\" \"/divisions/writer\" \"/divisions/forge\" \"/divisions/games\" \"/divisions/vision\")",
+      "Bash(do echo -n \"$url -> \")",
+      "Bash(npx next lint:*)",
+      "WebFetch(domain:localhost)",
+      "Bash(npx tsc:*)",
+      "Bash(python3 -c:*)",
+      "Bash(node -e:*)",
+      "Bash(npx next build)"
+    ]
+  }
+}

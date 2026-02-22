@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { SITE, DIVISIONS, SOCIAL_LINKS } from '@/lib/constants'
+import { SITE, DIVISIONS, SOCIAL_LINKS, FOOTER_LINKS } from '@/lib/constants'
 import DivisionIcon from '@/components/ui/DivisionIcon'
 import MagneticButton from '@/components/ui/MagneticButton'
 import ScrollToTopWrapper from '@/components/ui/ScrollToTopWrapper'
@@ -83,14 +83,23 @@ export default function Footer() {
 
         {/* ── 3-column grid ─────────────────────────────────── */}
         <nav aria-label="Footer navigation" className="grid gap-12 md:grid-cols-3">
-          {/* Column 1 — About */}
+          {/* Column 1 — Studio Links */}
           <div>
             <h2 className="mb-4 text-sm font-semibold uppercase tracking-wider text-text-muted font-display">
               Studio
             </h2>
-            <p className="text-sm text-text-secondary leading-relaxed">
-              One creator, AI-amplified. Building original cross-media intellectual properties across four divisions.
-            </p>
+            <ul className="flex flex-col gap-3">
+              {FOOTER_LINKS.studio.map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-text-secondary transition-colors duration-200 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from rounded-sm focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Column 2 — Divisions */}
