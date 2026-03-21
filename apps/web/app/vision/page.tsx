@@ -133,7 +133,7 @@ export default function VisionPage() {
         className="relative overflow-hidden py-28 md:py-36"
         aria-label="Vision hero"
       >
-        <FloatingOrbs seed={7} count={4} />
+        <FloatingOrbs seed={7} />
 
         {/* Blurred glow circles */}
         <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
