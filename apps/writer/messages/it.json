@@ -1,0 +1,130 @@
+{
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "create": "Crea",
+    "close": "Chiudi",
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Operazione completata",
+    "confirm": "Conferma",
+    "back": "Indietro",
+    "next": "Avanti",
+    "skip": "Salta",
+    "search": "Cerca..."
+  },
+  "auth": {
+    "signIn": "Accedi",
+    "signUp": "Registrati",
+    "signOut": "Esci"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Benvenuto, {name}",
+    "projects": "Progetti",
+    "wordsToday": "Parole oggi",
+    "streak": "Streak",
+    "totalWords": "Parole totali",
+    "newProject": "Nuovo progetto",
+    "noProjects": "Nessun progetto ancora",
+    "createFirst": "Crea il tuo primo romanzo per iniziare a scrivere."
+  },
+  "editor": {
+    "untitled": "Senza titolo",
+    "saving": "Salvataggio...",
+    "saved": "Salvato",
+    "unsavedChanges": "Modifiche non salvate",
+    "words": "parole",
+    "characters": "caratteri"
+  },
+  "worldbuilding": {
+    "characters": "Personaggi",
+    "locations": "Luoghi",
+    "factions": "Fazioni",
+    "items": "Oggetti",
+    "magic": "Sistema Magico",
+    "rules": "Regole del Mondo",
+    "timeline": "Timeline",
+    "subplots": "Sottotrame",
+    "relationships": "Relazioni"
+  },
+  "ai": {
+    "generate": "Genera",
+    "generating": "Generazione in corso...",
+    "suggestions": "Suggerimenti",
+    "coherence": "Coerenza",
+    "continue": "Continua",
+    "dialogue": "Dialogo",
+    "description": "Descrizione",
+    "action": "Azione",
+    "transition": "Transizione",
+    "flashback": "Flashback"
+  },
+  "analytics": {
+    "title": "Statistiche",
+    "progress": "Progresso",
+    "calendar": "Calendario",
+    "textAnalysis": "Analisi Testo",
+    "characterUsage": "Uso Personaggi"
+  },
+  "export": {
+    "manuscript": "Manoscritto",
+    "bible": "Bibbia del Mondo",
+    "format": "Formato",
+    "exporting": "Esportazione...",
+    "exportSuccess": "Export completato!"
+  },
+  "billing": {
+    "free": "Gratuito",
+    "writer": "Writer",
+    "professional": "Professional",
+    "currentPlan": "Piano attuale",
+    "upgrade": "Aggiorna",
+    "manage": "Gestisci abbonamento"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "profile": "Profilo",
+    "preferences": "Preferenze",
+    "notifications": "Notifiche",
+    "theme": "Tema",
+    "language": "Lingua"
+  },
+  "onboarding": {
+    "welcome": "Benvenuto su NeoByteWriter",
+    "step1Title": "Il tuo spazio creativo",
+    "step1Description": "NeoByteWriter è il tuo compagno di scrittura con intelligenza artificiale.",
+    "step2Title": "Il tuo primo progetto",
+    "step2Description": "Inizia creando il tuo primo romanzo o racconto.",
+    "step3Title": "Esplora le funzionalità",
+    "step3Description": "Scopri l'editor, il worldbuilding e l'assistente AI.",
+    "step4Title": "Tutto pronto!",
+    "step4Description": "Sei pronto per iniziare la tua avventura di scrittura.",
+    "checklist": "Checklist",
+    "createProject": "Crea il tuo primo progetto",
+    "writeChapter": "Scrivi il primo capitolo",
+    "addCharacter": "Aggiungi un personaggio",
+    "tryAI": "Prova l'assistente AI",
+    "exportWork": "Esporta il manoscritto"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "type": "Tipo",
+    "bug": "Segnala un bug",
+    "feature": "Richiedi funzionalità",
+    "general": "Feedback generale",
+    "other": "Altro",
+    "message": "Messaggio",
+    "send": "Invia feedback",
+    "sent": "Grazie per il tuo feedback!"
+  },
+  "newsletter": {
+    "title": "Iscriviti alla newsletter",
+    "subtitle": "Ricevi aggiornamenti e consigli di scrittura",
+    "placeholder": "La tua email",
+    "subscribe": "Iscriviti",
+    "subscribed": "Iscrizione confermata!"
+  }
+}

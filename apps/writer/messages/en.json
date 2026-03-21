@@ -1,0 +1,130 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Operation completed",
+    "confirm": "Confirm",
+    "back": "Back",
+    "next": "Next",
+    "skip": "Skip",
+    "search": "Search..."
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {name}",
+    "projects": "Projects",
+    "wordsToday": "Words today",
+    "streak": "Streak",
+    "totalWords": "Total words",
+    "newProject": "New project",
+    "noProjects": "No projects yet",
+    "createFirst": "Create your first novel to start writing."
+  },
+  "editor": {
+    "untitled": "Untitled",
+    "saving": "Saving...",
+    "saved": "Saved",
+    "unsavedChanges": "Unsaved changes",
+    "words": "words",
+    "characters": "characters"
+  },
+  "worldbuilding": {
+    "characters": "Characters",
+    "locations": "Locations",
+    "factions": "Factions",
+    "items": "Items",
+    "magic": "Magic System",
+    "rules": "World Rules",
+    "timeline": "Timeline",
+    "subplots": "Subplots",
+    "relationships": "Relationships"
+  },
+  "ai": {
+    "generate": "Generate",
+    "generating": "Generating...",
+    "suggestions": "Suggestions",
+    "coherence": "Coherence",
+    "continue": "Continue",
+    "dialogue": "Dialogue",
+    "description": "Description",
+    "action": "Action",
+    "transition": "Transition",
+    "flashback": "Flashback"
+  },
+  "analytics": {
+    "title": "Analytics",
+    "progress": "Progress",
+    "calendar": "Calendar",
+    "textAnalysis": "Text Analysis",
+    "characterUsage": "Character Usage"
+  },
+  "export": {
+    "manuscript": "Manuscript",
+    "bible": "World Bible",
+    "format": "Format",
+    "exporting": "Exporting...",
+    "exportSuccess": "Export completed!"
+  },
+  "billing": {
+    "free": "Free",
+    "writer": "Writer",
+    "professional": "Professional",
+    "currentPlan": "Current plan",
+    "upgrade": "Upgrade",
+    "manage": "Manage subscription"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "preferences": "Preferences",
+    "notifications": "Notifications",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "onboarding": {
+    "welcome": "Welcome to NeoByteWriter",
+    "step1Title": "Your creative space",
+    "step1Description": "NeoByteWriter is your AI-powered writing companion.",
+    "step2Title": "Your first project",
+    "step2Description": "Start by creating your first novel or story.",
+    "step3Title": "Explore the features",
+    "step3Description": "Discover the editor, worldbuilding, and AI assistant.",
+    "step4Title": "All set!",
+    "step4Description": "You're ready to start your writing adventure.",
+    "checklist": "Checklist",
+    "createProject": "Create your first project",
+    "writeChapter": "Write the first chapter",
+    "addCharacter": "Add a character",
+    "tryAI": "Try the AI assistant",
+    "exportWork": "Export your manuscript"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "type": "Type",
+    "bug": "Report a bug",
+    "feature": "Request a feature",
+    "general": "General feedback",
+    "other": "Other",
+    "message": "Message",
+    "send": "Send feedback",
+    "sent": "Thank you for your feedback!"
+  },
+  "newsletter": {
+    "title": "Subscribe to our newsletter",
+    "subtitle": "Get updates and writing tips",
+    "placeholder": "Your email",
+    "subscribe": "Subscribe",
+    "subscribed": "Subscription confirmed!"
+  }
+}

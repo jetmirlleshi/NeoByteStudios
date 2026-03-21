@@ -1,0 +1,64 @@
+/* Scene Separator */
+.ProseMirror hr.scene-separator {
+  border: none;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.ProseMirror hr.scene-separator::after {
+  content: "* * *";
+  display: block;
+  font-size: 1.2rem;
+  letter-spacing: 0.5em;
+  color: var(--muted-foreground, #888);
+}
+
+/* Author Note */
+.ProseMirror div[data-author-note] {
+  background-color: hsl(var(--warning, 48 96% 89%) / 0.3);
+  border: 1px dashed hsl(var(--warning, 48 96% 50%) / 0.5);
+  border-radius: 0.375rem;
+  padding: 0.75rem 1rem;
+  margin: 0.5rem 0;
+  font-size: 0.875rem;
+  color: var(--muted-foreground, #666);
+  font-style: italic;
+}
+
+.ProseMirror div[data-author-note]::before {
+  content: "Nota autore";
+  display: block;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+  font-style: normal;
+}
+
+/* Editor placeholder */
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--muted-foreground, #aaa);
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Selection color for editor */
+.ProseMirror ::selection {
+  background-color: hsl(var(--primary, 220 70% 50%) / 0.2);
+}
+
+/* Typography improvements */
+.ProseMirror {
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.8;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid var(--border, #ddd);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--muted-foreground, #666);
+}
