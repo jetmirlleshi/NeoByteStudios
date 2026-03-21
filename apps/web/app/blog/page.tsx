@@ -33,45 +33,42 @@ export default function BlogPage() {
         </ScrollReveal>
 
         {posts.length === 0 ? (
-          <ScrollReveal delay={0.1}>
-            <p className="mt-16 text-text-muted text-center">
-              No posts yet. Check back soon.
-            </p>
-          </ScrollReveal>
+          <p className="mt-16 text-text-muted text-center">
+            No posts yet. Check back soon.
+          </p>
         ) : (
           <div className="mt-16 space-y-8">
-            {posts.map((post, i) => (
-              <ScrollReveal key={post.slug} delay={0.1 * (i + 1)}>
-                <Link
-                  href={`/blog/${post.slug}`}
-                  className="group block rounded-2xl p-6 glass-card transition-all duration-300 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
-                  style={{
-                    borderLeft: `2px solid ${post.coverColor ?? 'var(--brand-from)'}`,
-                  }}
-                >
-                  <div className="flex items-center gap-3 text-xs text-text-muted">
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
-                      })}
-                    </time>
-                    {post.tags.length > 0 && (
-                      <>
-                        <span aria-hidden="true">&middot;</span>
-                        <span>{post.tags[0]}</span>
-                      </>
-                    )}
-                  </div>
-                  <h2 className="mt-2 font-display text-xl md:text-2xl font-bold text-text-primary group-hover:text-accent transition-colors duration-200">
-                    {post.title}
-                  </h2>
-                  <p className="mt-2 text-text-secondary text-sm md:text-base line-clamp-2">
-                    {post.description}
-                  </p>
-                </Link>
-              </ScrollReveal>
+            {posts.map((post) => (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                className="group block rounded-2xl p-6 glass-card transition-all duration-300 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-from focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary"
+                style={{
+                  borderLeft: `2px solid ${post.coverColor ?? 'var(--brand-from)'}`,
+                }}
+              >
+                <div className="flex items-center gap-3 text-xs text-text-muted">
+                  <time dateTime={post.date}>
+                    {new Date(post.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                  {post.tags.length > 0 && (
+                    <>
+                      <span aria-hidden="true">&middot;</span>
+                      <span>{post.tags[0]}</span>
+                    </>
+                  )}
+                </div>
+                <h2 className="mt-2 font-display text-xl md:text-2xl font-bold text-text-primary group-hover:text-accent transition-colors duration-200">
+                  {post.title}
+                </h2>
+                <p className="mt-2 text-text-secondary text-sm md:text-base line-clamp-2">
+                  {post.description}
+                </p>
+              </Link>
             ))}
           </div>
         )}

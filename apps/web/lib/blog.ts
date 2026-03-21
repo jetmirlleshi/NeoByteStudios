@@ -2,10 +2,20 @@ import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
-const _cwdBlogDir = path.join(process.cwd(), 'content', 'blog')
-const BLOG_DIR = fs.existsSync(_cwdBlogDir)
-  ? _cwdBlogDir
-  : path.join(process.cwd(), 'apps', 'web', 'content', 'blog')
+function resolveBlogDir(): string {
+  // Priority 1: env var esplicita (set in next.config.ts) — solo se il path esiste davvero
+  const envDir = process.env.BLOG_CONTENT_DIR
+  if (envDir && fs.existsSync(envDir)) return envDir
+
+  // Priority 2: content/blog relativo a cwd (funziona quando cwd = apps/web)
+  const cwdDir = path.join(process.cwd(), 'content', 'blog')
+  if (fs.existsSync(cwdDir)) return cwdDir
+
+  // Priority 3: apps/web/content/blog relativo a cwd (funziona quando cwd = monorepo root)
+  return path.join(process.cwd(), 'apps', 'web', 'content', 'blog')
+}
+
+const BLOG_DIR = resolveBlogDir()
 
 export interface BlogPostMeta {
   slug: string

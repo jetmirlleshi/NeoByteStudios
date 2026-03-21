@@ -1,4 +1,9 @@
 import type { NextConfig } from "next";
+import path from "path";
+
+// import.meta.dirname è ESM-native (Node.js 21+) e funziona correttamente
+// in next.config.ts (ES module). __dirname non è disponibile in ESM.
+const appDir = import.meta.dirname;
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -11,11 +16,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  env: {
+    BLOG_CONTENT_DIR: path.join(appDir, "content", "blog"),
+  },
   experimental: {
     optimizePackageImports: ["framer-motion"],
   },
   turbopack: {
-    root: __dirname,
+    root: path.join(appDir, "../.."),
   },
   async headers() {
     return [
