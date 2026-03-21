@@ -1,7 +1,39 @@
 import { NextResponse } from 'next/server'
 import { getDb } from '@/lib/db'
 
+// Rate limiter in-memory (sliding window, reset ad ogni cold start in serverless)
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 minuti
+
+const ipRequestMap = new Map<string, number[]>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const windowStart = now - RATE_LIMIT_WINDOW_MS
+  const timestamps = (ipRequestMap.get(ip) ?? []).filter(t => t > windowStart)
+
+  if (timestamps.length >= RATE_LIMIT_MAX) {
+    return true
+  }
+
+  timestamps.push(now)
+  ipRequestMap.set(ip, timestamps)
+  return false
+}
+
 export async function POST(request: Request) {
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
+    request.headers.get('x-real-ip') ??
+    'unknown'
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429 },
+    )
+  }
+
   try {
     const body = await request.json()
     const { email, division } = body

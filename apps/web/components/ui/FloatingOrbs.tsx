@@ -81,7 +81,7 @@ export default function FloatingOrbs({ seed = 7 }: FloatingOrbsProps) {
       {orbs.map((orb, i) => (
         <div
           key={i}
-          className="floating-orb absolute rounded-full"
+          className={`floating-orb absolute rounded-full${i >= 2 ? ' hidden md:block' : ''}`}
           style={{
             left: orb.left,
             top: orb.top,

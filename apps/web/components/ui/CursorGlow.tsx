@@ -50,8 +50,9 @@ export default function CursorGlow() {
   }, []);
 
   useEffect(() => {
-    // Don't run the animation loop for reduced motion
+    // Don't run the animation loop for reduced motion or touch devices
     if (prefersReducedMotion) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
 
     const section = glowRef.current?.parentElement;
     if (!section) return;

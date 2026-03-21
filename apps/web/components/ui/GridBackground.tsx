@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { seededRandom } from "@/lib/utils";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 interface Dot {
   left: string;
@@ -27,7 +28,8 @@ function generateDots(count: number): Dot[] {
 }
 
 export default function GridBackground() {
-  const dots = useMemo(() => generateDots(28), []);
+  const isMobile = useIsMobile();
+  const dots = useMemo(() => generateDots(isMobile ? 6 : 28), [isMobile]);
 
   return (
     <div
@@ -40,8 +42,9 @@ export default function GridBackground() {
         style={{
           height: "70%",
           transformOrigin: "center bottom",
-          animation:
-            "grid-scroll 12s linear infinite, grid-pulse 8s ease-in-out infinite",
+          animation: isMobile
+            ? "none"
+            : "grid-scroll 12s linear infinite, grid-pulse 8s ease-in-out infinite",
           /* willChange removed — CSS animation already promotes to compositor */
           backgroundImage: [
             `repeating-linear-gradient(90deg,color-mix(in srgb, var(--brand-from) 8%, transparent) 0px,color-mix(in srgb, var(--brand-from) 8%, transparent) 1px,transparent 1px,transparent 60px)`,

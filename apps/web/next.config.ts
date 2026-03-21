@@ -14,6 +14,9 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["framer-motion"],
   },
+  turbopack: {
+    root: __dirname,
+  },
   async headers() {
     return [
       {

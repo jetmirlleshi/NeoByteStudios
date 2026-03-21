@@ -259,12 +259,12 @@ export default async function DivisionPage({
               style={{ borderLeft: `2px solid ${division.color}40` }}
             >
               <h2 className="font-display text-lg md:text-xl font-bold text-text-primary mb-3">
-                Be Among the First
+                Secure Your Early Access
               </h2>
               <p className="text-text-secondary text-sm md:text-base leading-relaxed">
-                {division.name} is currently in active development.
+                {division.name} is in active development — and the first wave of users will shape what it becomes.
                 {division.expectedLaunch && (
-                  <> We&apos;re targeting a <strong className="text-text-primary">{division.expectedLaunch}</strong> launch.</>
+                  <> Targeting a <strong className="text-text-primary">{division.expectedLaunch}</strong> launch.</>
                 )}
               </p>
 
@@ -290,7 +290,7 @@ export default async function DivisionPage({
               )}
 
               <p className="mt-5 text-text-muted text-xs md:text-sm">
-                Join the waitlist to get early access and development updates.
+                Join the waitlist — get early access, insider build updates, and a direct line to the team shaping it.
               </p>
               <WaitlistForm division={division.slug} color={division.color} />
             </div>

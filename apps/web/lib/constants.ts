@@ -92,35 +92,39 @@ export const DIVISIONS: Division[] = [
     url: null,
     expectedLaunch: 'Late 2026',
     developmentProgress: 25,
-    tagline: 'The IP creation foundry',
+    tagline: 'AI-native developer toolkit — ship faster, think bigger',
     description:
-      'Build universes that span every medium from day one. NeoByteForge is where original intellectual properties are born — designed for cross-media from the start.',
-    metaTitle: 'NeoByteForge — Cross-Media IP Creation & Worldbuilding Platform',
+      'Stop fighting boilerplate. NeoByteForge is an AI-powered developer toolkit built for engineers who want to automate the grunt work and focus on what only they can do: architect, innovate, and ship.',
+    metaTitle: 'NeoByteForge — AI Developer Toolkit for Code Generation & Workflow Automation',
     metaDescription:
-      'Create original intellectual properties designed for cross-media from day one. Worldbuilding, character design, and lore management — all in one platform.',
+      'AI-powered code generation, automated refactoring, and dev workflow automation. NeoByteForge is the toolkit that lets developers ship faster without sacrificing quality.',
     longDescription:
-      'NeoByteForge is the creative engine of NeoByteStudios. It provides the tools and framework for building original intellectual properties that are designed from their inception to work across multiple media — books, games, visual content, and licensing. Every world starts with a unified creative bible that ensures consistency no matter where the story is told.',
+      'NeoByteForge is the developer productivity division of NeoByteStudios. Built for engineers who want to harness the full power of AI in their daily workflow — from intelligent, context-aware code generation to automated refactoring, smart documentation, and workflow automation that eliminates repetitive overhead. Whether you are a solo developer shipping at team speed or a dev team looking to radically cut cycle times, Forge gives you an AI co-pilot that understands your stack, your patterns, and your goals. The future of software development is not just writing code faster — it is writing less of the code that does not matter so you can write more of the code that does.',
     features: [
-      'Unified IP bible for cross-media consistency',
-      'Character design pipeline with visual references',
-      'Lore database with relationship mapping',
-      'Media adaptation planning tools',
-      'Collaborative worldbuilding workspace',
+      'AI code generation tailored to your stack and patterns',
+      'Automated refactoring with context-aware suggestions',
+      'Intelligent documentation generation from existing code',
+      'Workflow automation for repetitive dev tasks',
+      'Smart debugging assistance with root-cause analysis',
     ],
     useCases: [
-      'Creating original fantasy or sci-fi universes',
-      'Planning cross-media IP launches',
-      'Building consistent worlds for multiple authors',
-      'Designing characters with cross-platform appeal',
+      'Solo developers who want to ship at team speed',
+      'Startups automating their development workflow to move faster',
+      'Engineers tired of writing repetitive boilerplate',
+      'Dev teams looking to 10x throughput without scaling headcount',
     ],
     faq: [
       {
         question: 'When will NeoByteForge launch?',
-        answer: 'NeoByteForge is currently in active development. Sign up for our waitlist to be among the first to access it when it launches.',
+        answer: 'NeoByteForge is in active development targeting a Late 2026 release. Join the waitlist to get early access, shape the product with direct feedback, and be the first to use it.',
       },
       {
-        question: 'How is Forge different from Writer?',
-        answer: 'Writer focuses on the writing process itself. Forge is the strategic layer above it — where you design the IP, plan its cross-media life, and manage the creative bible that feeds into Writer, Games, and Vision.',
+        question: 'What languages and frameworks will NeoByteForge support?',
+        answer: 'NeoByteForge is being built stack-agnostic from day one — with priority support for JavaScript/TypeScript, Python, Rust, and Go. AI assistance that works where you already work.',
+      },
+      {
+        question: 'Will it replace my IDE?',
+        answer: 'No. NeoByteForge is designed to integrate into your existing workflow as an AI co-pilot — not replace your tools. Think of it as the intelligent layer on top of everything you already use.',
       },
     ],
   },
@@ -133,33 +137,39 @@ export const DIVISIONS: Division[] = [
     url: null,
     expectedLaunch: '2027',
     developmentProgress: 10,
-    tagline: 'Indie games from AI-born universes',
+    tagline: 'Indie games built at the speed of imagination',
     description:
-      'Play the stories you read. NeoByteGames transforms our IPs into interactive experiences — indie games where procedural generation meets handcrafted narrative.',
-    metaTitle: 'NeoByteGames — Indie Games from AI-Powered Story Universes',
+      'NeoByteGames is an AI-powered indie game studio where rich, lore-deep universes become unforgettable interactive experiences — developed faster and more ambitiously than ever before.',
+    metaTitle: 'NeoByteGames — AI-Powered Indie Game Studio | Story-First Gaming Experiences',
     metaDescription:
-      'Indie games built at the intersection of procedural generation and handcrafted storytelling. Play the universes born from NeoByteStudios IP.',
+      'AI-accelerated indie games with AAA narrative depth. NeoByteGames builds story-first interactive experiences rooted in rich lore — where procedural generation meets intentional design.',
     longDescription:
-      'NeoByteGames is where our intellectual properties become playable. Every game is rooted in a universe first developed through Forge and Writer, ensuring rich lore, deep characters, and a narrative backbone that most indie titles lack. We combine procedural generation with handcrafted story beats to create experiences that feel both expansive and intentional.',
+      'NeoByteGames is building a new model for indie game development: one where AI compresses the development cycle without compressing the vision. Every title we create is rooted in deep, pre-built lore developed across the NeoByteStudios ecosystem — meaning our games launch with the narrative backbone most studios take years to construct. We combine AI-assisted level design, procedural generation guided by intentional narrative design, and handcrafted story beats to create experiences that feel both expansive and authored. Indie in spirit. AAA in ambition. Powered by AI.',
     features: [
-      'Games rooted in rich, pre-built lore',
-      'Procedural generation guided by narrative design',
-      'Cross-media story connections',
-      'Indie-scale with AAA worldbuilding depth',
+      'AI-accelerated game development pipeline',
+      'Procedural generation guided by narrative design — not randomness',
+      'Deep lore integration from the full NeoByteStudios universe',
+      'Multi-platform publishing: PC, mobile, and console',
+      'AI-assisted level design, balancing, and playtesting',
     ],
     useCases: [
-      'Story-driven indie game experiences',
-      'Exploring NeoByteStudios universes interactively',
-      'Narrative RPGs with deep lore',
+      'Players who want story-first indie games with genuine depth',
+      'Narrative RPG fans tired of shallow mechanics and thin worlds',
+      'Gamers who love handcrafted stories with procedural replay value',
+      'Fans of NeoByteStudios IP wanting to explore universes interactively',
     ],
     faq: [
       {
-        question: 'What kind of games will NeoByteGames make?',
-        answer: 'We focus on story-driven indie games — think narrative RPGs, exploration games, and interactive fiction — all set in the universes we create through NeoByteForge.',
+        question: 'What kind of games will NeoByteGames release?',
+        answer: 'We focus on story-driven experiences — narrative RPGs, exploration games, and interactive fiction — built on rich lore and developed with AI tools. Indie in scale, AAA in world depth.',
+      },
+      {
+        question: 'How does AI change the way you make indie games?',
+        answer: 'AI compresses the timeline radically. Tasks that once required a team of 20 over two years, we can execute with a focused team in months. That means more games, more ambitious worlds, and faster iteration — without sacrificing quality.',
       },
       {
         question: 'Will the games be free?',
-        answer: 'Pricing will vary per title. Our goal is to make our games accessible while sustaining the studio. Expect a mix of free and premium experiences.',
+        answer: 'Pricing will vary per title. Our goal is to make our games widely accessible while sustaining the studio. Expect a mix of free-to-play and premium experiences depending on scope.',
       },
     ],
   },
@@ -172,34 +182,39 @@ export const DIVISIONS: Division[] = [
     url: null,
     expectedLaunch: '2027',
     developmentProgress: 5,
-    tagline: 'Visual content and IP licensing',
+    tagline: 'AI-generated visuals that bring worlds to life',
     description:
-      'See the worlds we build. NeoByteVision handles art direction, media production, and licensing — bringing our universes to life across every visual medium.',
-    metaTitle: 'NeoByteVision — Visual Content & IP Licensing for AI-Born Universes',
+      'NeoByteVision is where imagination becomes image. AI art generation, video production, and concept design that transforms the worlds we build into stunning visual realities — at a scale no traditional studio can match.',
+    metaTitle: 'NeoByteVision — AI Art Generation, Video Production & Concept Design Studio',
     metaDescription:
-      'Art direction, media production, and IP licensing. Bringing AI-born creative universes to life across visual media, merchandise, and partnerships.',
+      'AI-powered concept art, video generation, and visual media production. NeoByteVision brings fictional universes to life through cutting-edge generative AI tools and intentional art direction.',
     longDescription:
-      'NeoByteVision is the visual and commercial arm of NeoByteStudios. It handles everything from concept art and media production to IP licensing and merchandise. When a universe created in Forge reaches visual maturity, Vision takes it to the world — through art books, animated content, licensed products, and brand partnerships.',
+      'NeoByteVision is the visual media division of NeoByteStudios — powered by the latest AI art and video generation models, and guided by intentional art direction. We produce concept art, character design sheets, environment visuals, animated content, and full visual identities for the universes we build. What once required a studio full of artists working for months, Vision delivers in days — without sacrificing the quality or coherence that makes visual storytelling powerful. Whether it is a sweeping fantasy landscape, a sci-fi character in exhaustive detail, or a teaser trailer generated entirely with AI, NeoByteVision is the visual engine behind the NeoByteStudios universe.',
     features: [
-      'Concept art and visual development pipeline',
-      'IP licensing and partnership management',
-      'Brand-consistent visual identity across media',
-      'Merchandise and product design',
+      'AI-powered concept art and character design generation',
+      'Video generation for trailers, animated shorts, and teasers',
+      'Visual development pipelines for IP universes',
+      'Brand-consistent art direction across all media',
+      'IP licensing and visual merchandise partnerships',
     ],
     useCases: [
-      'Visual development for IP universes',
-      'Licensing our worlds to partners and platforms',
-      'Creating art books and visual companions',
-      'Merchandise design and production',
+      'Creators who need professional-grade concept art without a full art team',
+      'Studios requiring rapid visual development for new IP universes',
+      'Content creators building visually immersive fictional worlds',
+      'Partners and brands looking to license stunning AI-generated IP',
     ],
     faq: [
       {
-        question: 'Can I license NeoByteStudios IP?',
-        answer: 'Once NeoByteVision launches, we will offer licensing opportunities for select IPs. Join our waitlist to be notified when partnerships open.',
+        question: 'Can I commission AI-generated art or visuals through NeoByteVision?',
+        answer: 'Yes. NeoByteVision will offer visual development services and tools for creators who want AI-generated concept art, character design, and visual content for their own projects. Join the waitlist to be first in line.',
       },
       {
-        question: 'What visual media will Vision produce?',
-        answer: 'We plan to create concept art collections, art books, animated shorts, and visual companion pieces for our IP universes.',
+        question: 'What kind of video content will NeoByteVision produce?',
+        answer: 'We are building for everything from short animated clips and teaser trailers to longer-form visual content and art-book-style showcases. The goal is full-stack visual media production, powered by AI and shaped by intentional creative direction.',
+      },
+      {
+        question: 'Can I license NeoByteStudios IP through Vision?',
+        answer: 'Once NeoByteVision launches, we will open licensing opportunities for select IP universes. Waitlist members will be the first notified when partnerships become available.',
       },
     ],
   },
@@ -219,8 +234,8 @@ export interface NavLink {
 
 export const NAVIGATION_LINKS: NavLink[] = [
   { label: 'Home', href: '/' },
-  { label: 'Roadmap', href: '/#roadmap' },
-  { label: 'Vision', href: '/#vision' },
+  { label: 'Roadmap', href: '/roadmap' },
+  { label: 'Vision', href: '/vision' },
   { label: 'Blog', href: '/blog' },
   { label: 'Try Writer \u2192', href: 'https://neobytewriter.vercel.app', external: true, highlight: true },
 ]
@@ -641,8 +656,8 @@ export const LAUNCH_DATE = new Date('2026-12-31T00:00:00')
 // ─── Footer Links ─────────────────────────────────────────────
 export const FOOTER_LINKS = {
   studio: [
-    { label: 'Roadmap', href: '/#roadmap' },
-    { label: 'Vision', href: '/#vision' },
+    { label: 'Roadmap', href: '/roadmap' },
+    { label: 'Vision', href: '/vision' },
       { label: 'Blog', href: '/blog' },
   ],
   divisions: [
