@@ -9,7 +9,19 @@
       "Bash(npx tsc:*)",
       "Bash(python3 -c:*)",
       "Bash(node -e:*)",
-      "Bash(npx next build)"
+      "Bash(npx next build)",
+      "Bash(head:*)",
+      "Bash(find:*)",
+      "Bash(wc:*)",
+      "Bash(echo ✓ $route exists:*)",
+      "Bash(tail:*)",
+      "Bash(cd /c/Users/miri/Desktop/Progetti/neobytestudios && pnpm list drizzle-orm drizzle-kit 2>&1)",
+      "Bash(cd /c/Users/miri/Desktop/Progetti/neobytestudios/packages/db && npx drizzle-kit generate 2>&1)",
+      "Bash(cd:*)",
+      "WebFetch(domain:orm.drizzle.team)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Bash(cd /c/Users/miri/Desktop/Progetti/neobytestudios && pnpm install --filter @neobytestudios/db 2>&1)",
+      "Bash(ls:*)"
     ]
   }
 }
