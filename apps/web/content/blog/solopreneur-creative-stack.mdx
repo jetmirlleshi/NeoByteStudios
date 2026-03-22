@@ -1,0 +1,114 @@
+---
+title: "The Solopreneur Creative Stack: Tools I Actually Use to Run a One-Person Studio"
+description: "Not a listicle. A real breakdown of the operational stack behind NeoByteStudios — what works, what got dropped, and what's overkill for a solo operator."
+date: "2026-04-05"
+author: "NeoByteStudios"
+tags: ["one-person-studio", "tools", "productivity", "solopreneur", "studio-model"]
+coverColor: "#0f766e"
+---
+
+## This Is Not a Listicle
+
+Every "best tools for solopreneurs" article follows the same formula: 23 apps, each with a star rating and an affiliate link. You read it, open six tabs, sign up for free trials, and two weeks later you're managing six subscriptions and producing less than before.
+
+I'm not doing that here.
+
+What follows is the actual operational stack behind NeoByteStudios — a one-person creative studio building web products, writing tools, and original IP. These are the tools I use daily, why I use them, what I killed, and where I draw the hard line on complexity.
+
+The goal isn't comprehensiveness. It's survival.
+
+## The Constraint That Shapes Everything
+
+I run NeoByteStudios on evenings and weekends. On a good week, that's 10 to 15 focused hours. On a bad week, half that.
+
+That constraint is the filter through which every tool decision passes. If something requires more time to configure than it saves, it's gone. If onboarding takes more than one sitting, I'll never actually use it. If it requires maintenance between sessions, it creates friction that kills momentum.
+
+When you have limited time, tools aren't productivity multipliers by default — they're liabilities until proven otherwise. Every app you add to your stack is another context to load when you sit down to work. The highest-leverage decision I've made is having fewer tools, not better ones.
+
+So here's what survived the filter.
+
+## The Actual Stack
+
+### Writing & Content: Claude + NeoByteWriter
+
+For fiction and long-form creative work, I use [NeoByteWriter](/blog/ai-assisted-writing-tools) — a purpose-built tool we built specifically for writers who want AI assistance without losing their voice. It handles the structured parts of fiction: brainstorming, chapter planning, maintaining character and world consistency.
+
+For blog posts, copy, and anything web-facing, I work directly with Claude. The [workflow is four stages](/blog/ai-writing-workflow): research and synthesis, structural outline, drafted sections, then a human editing pass. Claude is genuinely good at the first three. I do the fourth myself, because that's where the voice lives.
+
+What I don't do: juggle five different AI tools for different content types. One interface, one system.
+
+### Code & Deploy: VS Code + Claude Code + Vercel + GitHub
+
+Claude Code runs inside VS Code and is the closest thing I have to a pair programmer. I describe what I'm trying to build, it writes the scaffold, I read it, I push back, we iterate. It's not magic, but it's dramatically faster than starting from a blank file.
+
+GitHub handles version control. Vercel handles deployment — push to main, site updates in 90 seconds. No ops, no servers, no infrastructure to babysit.
+
+This stack is almost embarrassingly simple for a software product. It's also exactly right for a solo operator. The moment you start adding CI/CD complexity, custom servers, or elaborate deployment pipelines, you're doing infrastructure work instead of product work.
+
+### Design & Visual: AI Image Generation
+
+I use AI image generation (Midjourney and DALL-E depending on the use case) for concept art, social graphics, and visual exploration. I'm not a designer. I don't pretend to be. What I needed was a way to produce visually coherent assets without hiring someone or spending hours in Figma.
+
+The workflow: describe the visual in detail, iterate on a few variations, pick the one that fits, resize and export. Total time: 15 minutes for something that used to either not exist or cost money I didn't want to spend.
+
+For UI and web design, I lean on component libraries and design systems. The less custom design work I need to do, the better.
+
+### Project Management: GitHub Issues + One Markdown File
+
+I track work in two places: GitHub Issues for anything code-related, and a single `NOTES.md` in the project root for everything else. That's it.
+
+No Notion. No Trello. No Asana. No elaborate tag hierarchies or "areas of responsibility" or weekly review templates.
+
+The problem with comprehensive project management systems is that they become the project. I've watched myself spend entire sessions reorganizing my Notion setup instead of making anything. The elaborate system becomes a procrastination machine disguised as productivity.
+
+A flat markdown file and GitHub Issues handle 95% of what I actually need. The remaining 5% isn't worth the overhead.
+
+### Analytics & Growth: Vercel Analytics + Organic Social
+
+Vercel Analytics is installed. It gives me page views, visit trends, and referral sources with zero configuration. I check it occasionally.
+
+I don't run paid ads. I don't have a content calendar. Growth is organic — ship things that are useful, write honestly about how they're built, and let that compound over time.
+
+This isn't a scalable growth strategy for a VC-backed company. It's the right strategy for a one-person studio that can't afford to optimize for distribution before the product is solid.
+
+### Communication: Email. Direct.
+
+No CRM. No automated sequences. No elaborate Zapier chains routing leads through funnel stages.
+
+When someone reaches out, I reply. When I have something worth sharing, I write it here. That's the whole communication stack.
+
+## Tools I Tried and Dropped
+
+**Notion** was the first casualty. The promise is obvious: one place for everything, beautifully organized, infinitely flexible. The reality: I spent more time maintaining the structure than using it. Every session started with five minutes of "where did I put that?" and ended with reorganizing instead of producing. Replaced by the markdown file.
+
+**Complex CI/CD pipelines** came next. At one point I had GitHub Actions running lint, type checks, tests, and deployment verification on every push. It felt professional. It was overkill. For a solo developer shipping to a personal project, the overhead of maintaining pipeline configs isn't justified. Vercel's built-in deployment is enough.
+
+**Canva** made sense before AI image generation existed. Now it doesn't. The template-based approach is slower than just describing what I want to an image model, and the results are more original.
+
+**Elaborate project management tools** — I tried Linear, ClickUp, and a brief, painful experiment with a full GTD system implemented in Notion. All of them optimized for teams coordinating across people and time zones. That's not my problem. My problem is remembering what I was doing last Tuesday at 11pm and picking up where I left off.
+
+## How AI Agents Replace What Used to Require Freelancers
+
+Here's the honest version of what running a one-person studio looks like with AI: you have a virtual team that's available at 2am, never gets offended when you change direction, and costs a flat monthly fee.
+
+Claude functions as editor, researcher, code reviewer, and writing partner depending on what I need in a given session. AI image generation replaces a graphic designer for 80% of tasks. GitHub Copilot (which I use alongside Claude Code) catches obvious bugs before they ship.
+
+Is it as good as a skilled specialist? No. A great editor who knows your work is better than AI. A senior developer pair-programming with you catches things AI misses. A professional designer with taste will always beat a well-prompted model.
+
+But "as good as a specialist" isn't the right benchmark for a one-person studio. The right benchmark is "good enough to ship, fast enough to iterate, cheap enough to sustain." On those terms, AI agents are genuinely transformative. They compress what used to be a team of three into a single operator with flexible leverage.
+
+The studio model only works if you're honest about what that actually means: you're not doing everything yourself. You're orchestrating tools that do parts of the work — and developing the taste to know when the output is good enough.
+
+## The Principle Behind the Stack
+
+Less is more. Not as a minimalist aesthetic choice, but as a survival strategy for limited time.
+
+Every tool you add creates a new context switch. Every subscription creates a new thing to manage. Every "maybe useful" app you install is a decision you'll have to re-make every time you sit down to work.
+
+The question isn't "is this tool useful?" The question is "does this tool's value exceed its overhead?" In a 10-hour week, the bar is high.
+
+What I've landed on: a handful of tools that are so deeply integrated into how I work that I don't think about them. They're just how I work. Everything else is noise.
+
+If you're building something similar and want to go deeper on the model itself, start with [Why the One-Person Studio Model Works](/blog/why-one-person-studio). And if you're writing fiction and want to see how the AI workflow applies specifically to long-form creative work, [NeoByteWriter](/blog/ai-assisted-writing-tools) is where that lives.
+
+Ship things. Keep the stack small. Iterate.
